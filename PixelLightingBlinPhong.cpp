@@ -43,13 +43,15 @@ HRESULT PixelLightingBlinPhong::Init(void)
 	Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
 
 	//モデル読み込み
-	Model = ModelLoad("asset\\model\\model.fbx");
+	//Model = ModelLoad("asset\\model\\model.fbx");
+	Model = ModelLoad("asset\\model\\cube.fbx");
 
 	//ライト構造体の初期化
-	XMVECTOR	dir = XMVectorSet(1.0f, -1.0f, 0.5f, 0.0f);
+	XMVECTOR	dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
 	dir = XMVector3Normalize(dir);
 	XMStoreFloat4(&Light.Direction, dir);//光のベクトル
 	Light.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);//光の色
+	Light.Ambient = XMFLOAT4(0.5f, 0.3f, 0.3f, 1.0f);//環境光の色
 
 	return S_OK;
 }

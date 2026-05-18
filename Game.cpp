@@ -16,7 +16,7 @@
 #include	"PixelDirectionalLighting.h"
 
 #include "PixelLightingBlinPhong.h"
-
+#include "HemiSpherLight.h"
 //===============================================
 //ÉOÉçÅ[ÉoÉãïœêî
  
@@ -28,6 +28,7 @@ PolygonModel	Model;
 VertexDirectionalLighting	VDLModel;
 PixelDirectionalLighting	PDLModel;
 PixelLightingBlinPhong		PLBPModel;
+HemiSpherLight				HSLModel;
 
 
 
@@ -62,7 +63,7 @@ void InitGame()
 	VDLModel.Init();
 	PDLModel.Init();
 	PLBPModel.Init();
-
+	HSLModel.Init();
 }
 
 //===============================================
@@ -77,7 +78,7 @@ void FinalizeGame()
 	VDLModel.Finalize();
 	PDLModel.Finalize();
 	PLBPModel.Finalize();
-
+	HSLModel.Finalize();
 	TextureFinalize();
 }
 
@@ -96,6 +97,7 @@ void UpdateGame()
 		VDLModel.Update();
 		PDLModel.Update();
 		PLBPModel.Update();
+		HSLModel.Update();
 	}
 
 }
@@ -120,5 +122,6 @@ void DrawGame()
 		VDLModel.Draw();
 		PDLModel.Draw();
 		PLBPModel.Draw();
+		HSLModel.Draw();
 	}
 }
