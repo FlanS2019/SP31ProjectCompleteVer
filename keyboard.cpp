@@ -185,6 +185,4 @@ void Keyboard_ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam)
     {
         keyUp(vk);
     }
-
-
 }

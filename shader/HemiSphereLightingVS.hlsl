@@ -1,20 +1,17 @@
-
 #include "Common.hlsl"
 
-Texture2D g_Texture : register(t0); 
-SamplerState g_SamplerState : register(s0);
-
-void main(in PS_IN In, out float4 outDiffuse : SV_Target )
+void main(in VS_IN In, out PS_IN Out)
 {
-    outDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord);
-    outDiffuse *= In.Diffuse;  
+    Out = (PS_IN) 0; // ëSÉÅÉìÉoÅ[èâä˙âª
+
+    float4 pos = float4(In.Position.xyz, 1.0f);
+    pos = mul(pos, World);
+    Out.WorldPosition = pos;
+    pos = mul(pos, View);
+    pos = mul(pos, Projection);
+
+    Out.Position = pos;
+    Out.Normal = In.Normal;
+    Out.TexCoord = In.TexCoord;
+    Out.Diffuse = In.Diffuse;
 }
-
-
-
-
-
-
-
-
-

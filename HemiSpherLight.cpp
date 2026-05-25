@@ -20,19 +20,18 @@ HRESULT HemiSpherLight::Init(void)
 	//モデルの読み込み
 	Model = ModelLoad("asset\\model\\cube.fbx");
 
-	XMVECTOR dir = XMVector4Normalize(XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f));
+	// ライト構造体の初期化
+	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
 	dir = XMVector3Normalize(dir);
-	XMStoreFloat4(&Light.Direction, dir);
-	Light.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	Light.Ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
+	XMStoreFloat4(&Light.Direction, dir); // 光のベクトル
+	Light.Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f); // 光の色
+	Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f); // 環境光
 
 	dir = XMVector4Normalize(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
 	XMStoreFloat4(&Light.GroundNormal, dir);
 
-	Light.SkyColor = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
-	Light.GroundColor = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
-
-
+	Light.SkyColor = XMFLOAT4(0.6f, 0.0f, 0.0f, 1.0f); // 赤っぽい
+	Light.GroundColor = XMFLOAT4(0.0f, 0.6f, 0.0f, 1.0f); // 緑っぽい
 
 	return S_OK;
 }

@@ -1,4 +1,3 @@
-
 #include	"main.h"
 #include	"renderer.h"
 #include	"Manager.h"
@@ -269,17 +268,24 @@ void	Update(void)
 
 
 	//===========================
-	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
+	ImGui_ImplDX11_NewFrame();
 	ImGui::NewFrame();
-	//ImGui::ShowDemoWindow();//<--------削除してOK
-	//===========================
+	ImGui::ShowDemoWindow();//<--------削除してOK
 
-	//マネージャ更新
+	// デバッグ用ウィンドウ: 入力フラグとマウス状態を確認
+	{
+		ImGui::Begin("ImGui Input Debug");
+		ImGuiIO& io = ImGui::GetIO();
+		ImGui::Text("WantCaptureMouse: %d", io.WantCaptureMouse);
+		ImGui::Text("WantCaptureKeyboard: %d", io.WantCaptureKeyboard);
+		ImGui::Text("MousePos: %.1f, %.1f", io.MousePos.x, io.MousePos.y);
+		ImGui::Text("MouseDown: %d %d %d", io.MouseDown[0], io.MouseDown[1], io.MouseDown[2]);
+		ImGui::End();
+	}
+
+	// マネージャ更新（PointPixelLighting::Update などがここで呼ばれる想定）
 	UpdateManager();
-
-
-
 }
 
 //==================================

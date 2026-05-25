@@ -4,7 +4,6 @@
 #include "Sprite.h"
 #include "Game.h"
 #include "keyboard.h"
-#include "Manager.h"
 #include "Camera.h"
 #include "texture.h"
 
@@ -17,6 +16,9 @@
 
 #include "PixelLightingBlinPhong.h"
 #include "HemiSpherLight.h"
+
+#include	"PointPixelLighting.h"
+#include	"LimLighting.h"
 //===============================================
 //グローバル変数
  
@@ -29,9 +31,11 @@ VertexDirectionalLighting	VDLModel;
 PixelDirectionalLighting	PDLModel;
 PixelLightingBlinPhong		PLBPModel;
 HemiSpherLight				HSLModel;
+PointPixelLighting			PPLModel;
+LimLighting					LLModel;
 
-
-
+// グローバルライト構造体の追加
+LIGHT Light;
 
 //ポーズフラグ
 static	bool	pause = false;
@@ -59,11 +63,27 @@ void InitGame()
 	test2D.Init();
 
 	Field.Init();
-	Model.Init();
-	VDLModel.Init();
-	PDLModel.Init();
-	PLBPModel.Init();
-	HSLModel.Init();
+	//Model.Init();
+	//VDLModel.Init();
+	//PDLModel.Init();
+	//PLBPModel.Init();
+	//HSLModel.Init();
+	PPLModel.Init();
+	LLModel.Init();
+
+	//// ライト構造体の初期化
+	//XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
+	//dir = XMVector3Normalize(dir);
+	//XMStoreFloat4(&Light.Direction, dir); // 光のベクトル
+	//Light.Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f); // 光の色
+	//Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f); // 環境光
+
+	//dir = XMVector4Normalize(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
+	//XMStoreFloat4(&Light.GroundNormal, dir);
+
+	//Light.SkyColor = XMFLOAT4(0.6f, 0.0f, 0.0f, 1.0f); // 赤っぽい
+	//Light.GroundColor = XMFLOAT4(0.0f, 0.6f, 0.0f, 1.0f); // 緑っぽい
+
 }
 
 //===============================================
@@ -74,11 +94,14 @@ void FinalizeGame()
 	test2D.Finalize();
 
 	Field.Finalize();
-	Model.Finalize();
-	VDLModel.Finalize();
-	PDLModel.Finalize();
-	PLBPModel.Finalize();
-	HSLModel.Finalize();
+	//Model.Finalize();
+	//VDLModel.Finalize();
+	//PDLModel.Finalize();
+	//PLBPModel.Finalize();
+	//HSLModel.Finalize();
+
+	PPLModel.Finalize();
+	LLModel.Finalize();
 	TextureFinalize();
 }
 
@@ -93,11 +116,13 @@ void UpdateGame()
 		test2D.Update();
 
 		Field.Update();
-		Model.Update();
-		VDLModel.Update();
-		PDLModel.Update();
-		PLBPModel.Update();
-		HSLModel.Update();
+		//Model.Update();
+		//VDLModel.Update();
+		//PDLModel.Update();
+		//PLBPModel.Update();
+		//HSLModel.Update();
+		PPLModel.Update();
+		LLModel.Update();
 	}
 
 }
@@ -118,10 +143,12 @@ void DrawGame()
 		DrawCamera();
 
 		Field.Draw();
-		Model.Draw();
-		VDLModel.Draw();
-		PDLModel.Draw();
-		PLBPModel.Draw();
-		HSLModel.Draw();
+		//Model.Draw();
+		//VDLModel.Draw();
+		//PDLModel.Draw();
+		//PLBPModel.Draw();
+		//HSLModel.Draw();
+		PPLModel.Draw();
+		LLModel.Draw();
 	}
 }

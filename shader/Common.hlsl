@@ -1,14 +1,11 @@
-
 cbuffer WorldBuffer : register(b0)
 {
     matrix World;
 }
-
 cbuffer ViewBuffer : register(b1)
 {
     matrix View;
 }
-
 cbuffer ProjectionBuffer : register(b2)
 {
     matrix Projection;
@@ -16,39 +13,35 @@ cbuffer ProjectionBuffer : register(b2)
 
 struct VS_IN
 {
-    float4 Position : POSITION0;
-    float4 Normal : NORMAL0;
+    float4 Position : POSITION;
+    float4 Normal : NORMAL;
     float4 Diffuse : COLOR0;
     float2 TexCoord : TEXCOORD0;
-  
 };
 
 struct PS_IN
 {
-    float4 Position : SV_POSITION0;
-    float4 WorldPosition : POSITION0;
-    float4 Normal : NORMAL0;
+    float4 Position : SV_Position;
+    float4 WorldPosition : TEXCOORD1;
+    float4 Normal : TEXCOORD2;
     float4 Diffuse : COLOR0;
     float2 TexCoord : TEXCOORD0;
- 
 };
 
 struct LIGHT
 {
-    bool     Enable;
-    bool3    Dummy;     //16バイト境界調整用のパディング
-    float4   Direction;
-    float4   Diffuse;
-    float4  Ambient;
-    
+    bool Enable;
+    uint3 Dummy;
+    float4 Direction;
+    float4 Diffuse;
+    float4 Ambient;
     float4 Position;
     float4 PointLightparam;
-    
     float4 SkyColor;
     float4 GroundColor;
     float4 GroundNormal;
+    float4 Range;
 };
-
 
 cbuffer LightBuffer : register(b4)
 {
@@ -62,4 +55,3 @@ cbuffer ParameterBuffer : register(b6)
 {
     float4 Parameter;
 }
-
