@@ -34,8 +34,8 @@
 HRESULT LimLighting::Init(void)
 {
 	//シェーダー読み込み
-	CreateVertexShader(&VertexShader, &VertexLayout, "LimLightingVS.cso");
-	CreatePixelShader(&PixelShader, "LimLightingPS.cso");
+	CreateVertexShader(&VertexShader, &VertexLayout, "PointPixelLightingVS.cso");//描画がなんかおかしかったような気がするから一時的にこれ使う
+	CreatePixelShader(&PixelShader, "PointPixelLightingPS.cso");//これも一時的にこれ使うｗ
 
 	Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
 	Light.Diffuse = XMFLOAT4(0.9f, 0.9f, 0.9f, 1.0f);
