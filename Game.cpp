@@ -71,18 +71,18 @@ void InitGame()
 	PPLModel.Init();
 	LLModel.Init();
 
-	//// ライト構造体の初期化
-	//XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
-	//dir = XMVector3Normalize(dir);
-	//XMStoreFloat4(&Light.Direction, dir); // 光のベクトル
-	//Light.Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f); // 光の色
-	//Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f); // 環境光
+	// ライト構造体の初期化
+	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
+	dir = XMVector3Normalize(dir);
+	XMStoreFloat4(&Light.Direction, dir); // 光のベクトル
+	Light.Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f); // 光の色
+	Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f); // 環境光
 
-	//dir = XMVector4Normalize(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
-	//XMStoreFloat4(&Light.GroundNormal, dir);
+	dir = XMVector4Normalize(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
+	XMStoreFloat4(&Light.GroundNormal, dir);
 
-	//Light.SkyColor = XMFLOAT4(0.6f, 0.0f, 0.0f, 1.0f); // 赤っぽい
-	//Light.GroundColor = XMFLOAT4(0.0f, 0.6f, 0.0f, 1.0f); // 緑っぽい
+	Light.SkyColor = XMFLOAT4(0.6f, 0.0f, 0.0f, 1.0f); // 赤っぽい
+	Light.GroundColor = XMFLOAT4(0.0f, 0.6f, 0.0f, 1.0f); // 緑っぽい
 
 }
 

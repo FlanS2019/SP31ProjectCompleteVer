@@ -101,6 +101,12 @@
     <ClCompile Include="HemiSpherLight.cpp">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
+    <ClCompile Include="PointPixelLighting.cpp">
+      <Filter>ソース ファイル\フレームワーク</Filter>
+    </ClCompile>
+    <ClCompile Include="LimLighting.cpp">
+      <Filter>ソース ファイル\フレームワーク</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite2D.h">
@@ -181,6 +187,12 @@
     <ClInclude Include="HemiSpherLight.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
+    <ClInclude Include="LimLighting.h">
+      <Filter>ソース ファイル\フレームワーク</Filter>
+    </ClInclude>
+    <ClInclude Include="PointPixelLighting.h">
+      <Filter>ソース ファイル\フレームワーク</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\Common.hlsl">
@@ -226,6 +238,18 @@
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\HemiSphereLightingVS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\LimLightingPS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\LimLightingVS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\PointPixelLightingPS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\PointPixelLightingVS.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
   </ItemGroup>

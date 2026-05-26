@@ -34,18 +34,21 @@
 HRESULT LimLighting::Init(void)
 {
 	//シェーダー読み込み
-	CreateVertexShader(&VertexShader, &VertexLayout, "PointPixelLightingVS.cso");//描画がなんかおかしかったような気がするから一時的にこれ使う
-	CreatePixelShader(&PixelShader, "PointPixelLightingPS.cso");//これも一時的にこれ使うｗ
+	CreateVertexShader(&VertexShader, &VertexLayout, "LimLightingVS.cso");//描画がなんかおかしかったような気がするから一時的にこれ使う
+	CreatePixelShader(&PixelShader, "LimLightingPS.cso");//これも一時的にこれ使うｗ
+	//CreateVertexShader(&VertexShader, &VertexLayout, "PointPixelLightingVS.cso");//描画がなんかおかしかったような気がするから一時的にこれ使う
+	//CreatePixelShader(&PixelShader, "PointPixelLightingPS.cso");//これも一時的にこれ使うｗ
+	
+	//3Dオブジェクト管理構造体の初期化
+	Position = XMFLOAT3(-0.1f, 0.2f, 0.0f);
+	Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
 
 	Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
 	Light.Diffuse = XMFLOAT4(0.9f, 0.9f, 0.9f, 1.0f);
 	Light.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
 	Light.PointLightParam = XMFLOAT4(3.0f, 0.0f, 0.0f, 0.0f);
 
-	//3Dオブジェクト管理構造体の初期化
-	Position = XMFLOAT3(-0.1f, 0.2f, 0.0f);
-	Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
 
 	//モデル読み込み
 	Model = ModelLoad("asset\\model\\model.fbx");
