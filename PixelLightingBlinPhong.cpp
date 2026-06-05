@@ -38,7 +38,7 @@ HRESULT PixelLightingBlinPhong::Init(void)
 	CreatePixelShader(&PixelShader, "PixelLightingBlinPhongPS.cso");
 
 	//3Dオブジェクト管理構造体の初期化
-	Position = XMFLOAT3(0.0f + 0.5f*2, 0.2f, 0.0f);
+	Position = XMFLOAT3(1.5f, 0.2f, 0.0f);
 	Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
 

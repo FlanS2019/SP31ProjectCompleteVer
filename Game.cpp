@@ -63,13 +63,13 @@ void InitGame()
 	test2D.Init();
 
 	Field.Init();
-	//Model.Init();
-	//VDLModel.Init();
-	//PDLModel.Init();
-	//PLBPModel.Init();
-	//HSLModel.Init();
-	PPLModel.Init();
-	LLModel.Init();
+	Model.Init();
+	VDLModel.Init();
+	PDLModel.Init();
+	PLBPModel.Init();
+	HSLModel.Init();
+	//PPLModel.Init();
+	//LLModel.Init();
 
 	// ÉâÉCÉgç\ë¢ëÃÇÃèâä˙âª
 	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
@@ -94,14 +94,14 @@ void FinalizeGame()
 	test2D.Finalize();
 
 	Field.Finalize();
-	//Model.Finalize();
-	//VDLModel.Finalize();
-	//PDLModel.Finalize();
-	//PLBPModel.Finalize();
-	//HSLModel.Finalize();
+	Model.Finalize();
+	VDLModel.Finalize();
+	PDLModel.Finalize();
+	PLBPModel.Finalize();
+	HSLModel.Finalize();
 
-	PPLModel.Finalize();
-	LLModel.Finalize();
+	//PPLModel.Finalize();
+	//LLModel.Finalize();
 	TextureFinalize();
 }
 
@@ -116,13 +116,13 @@ void UpdateGame()
 		test2D.Update();
 
 		Field.Update();
-		//Model.Update();
-		//VDLModel.Update();
-		//PDLModel.Update();
-		//PLBPModel.Update();
-		//HSLModel.Update();
-		PPLModel.Update();
-		LLModel.Update();
+		Model.Update();
+		VDLModel.Update();
+		PDLModel.Update();
+		PLBPModel.Update();
+		HSLModel.Update();
+		//PPLModel.Update();
+		//LLModel.Update();
 	}
 
 }
@@ -143,12 +143,12 @@ void DrawGame()
 		DrawCamera();
 
 		Field.Draw();
-		//Model.Draw();
-		//VDLModel.Draw();
-		//PDLModel.Draw();
-		//PLBPModel.Draw();
-		//HSLModel.Draw();
-		PPLModel.Draw();
-		LLModel.Draw();
+		Model.Draw();
+		VDLModel.Draw();
+		PDLModel.Draw();
+		PLBPModel.Draw();
+		HSLModel.Draw();
+		//PPLModel.Draw();
+		//LLModel.Draw();
 	}
 }

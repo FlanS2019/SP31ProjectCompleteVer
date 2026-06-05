@@ -10,7 +10,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
     
     lv = normalize(lv);
     
-    float ofs = saturate(1.0f - ld / Light.Range);
+    float ofs = saturate(1.0f - ld / Light.PointLightParam.xyz);
 
     ofs = max(ofs, 0.0f);
     
@@ -36,8 +36,13 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
     
     outDiffuse.rgb += specular * ofs;
     
-    //float lit;
-    //float lim;
-    //outDiffuse.rgb += lim;
+    float lit;
+    lit = 1.0f - max(0.0f,dot(lv.xyz, eyev));
+    float lim;
+    lim = 1.0f - max(0.0f, dot(lv.xyz, -eyev));
+    outDiffuse.rgb += lim;
+    lim *= lit;
+    lim = pow(lim, Light.PointLightParam.y);
+    
     //今日はここまでやった　描画に支障出るから一旦コメントアウト
 }

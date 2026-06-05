@@ -10,15 +10,15 @@ HRESULT HemiSpherLight::Init(void)
 {
 	//shaderの読み込み
 
-	CreateVertexShader(&VertexShader, &VertexLayout, "VertexDirectionalLightingVS.cso");
-	CreatePixelShader(&PixelShader, "VertexDirectionalLightingPS.cso");
+	CreateVertexShader(&VertexShader, &VertexLayout, "HemiSphereLightingVS.cso");
+	CreatePixelShader(&PixelShader, "HemiSphereLightingPS.cso");
 
 	//3DObjectの読み込み
-	Position = XMFLOAT3(1.5f, 0.2f, 0.0f);
+	Position = XMFLOAT3(2.0f, 0.2f, 0.0f);
 	Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
 	//モデルの読み込み
-	Model = ModelLoad("asset\\model\\cube.fbx");
+	Model = ModelLoad("asset\\model\\model.fbx");
 
 	// ライト構造体の初期化
 	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
@@ -30,9 +30,10 @@ HRESULT HemiSpherLight::Init(void)
 	dir = XMVector4Normalize(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
 	XMStoreFloat4(&Light.GroundNormal, dir);
 
-	Light.SkyColor = XMFLOAT4(0.6f, 0.0f, 0.0f, 1.0f); // 赤っぽい
-	Light.GroundColor = XMFLOAT4(0.0f, 0.6f, 0.0f, 1.0f); // 緑っぽい
-
+	Light.SkyColor = XMFLOAT4(0.4f, 0.6f, 0.2f, 1.0f); // 黄緑っぽく
+	Light.GroundColor = XMFLOAT4(0.1f, 0.3f, 0.1f, 1.0f); // 暗めの緑	
+	
+	
 	return S_OK;
 }
 
@@ -98,6 +99,7 @@ void HemiSpherLight::Draw(void)
 
 	SetLight(Light);
 
+
 	{//3dpolygon
 		ID3D11ShaderResourceView* tex = GetTexture(TexID);
 		GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
@@ -133,6 +135,7 @@ void HemiSpherLight::Draw(void)
 		SetMaterial(material);
 
 		ModelDraw(Model);
+
 	}
 }
 
