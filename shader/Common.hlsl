@@ -49,6 +49,7 @@ cbuffer LightBuffer : register(b4)
 }
 cbuffer CameraBuffer : register(b5)
 {
+    // 互換のために単独の変数も残す（必要なければ削除可）
     float4 CameraPosition;
 }
 cbuffer ParameterBuffer : register(b6)

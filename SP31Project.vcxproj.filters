@@ -107,6 +107,9 @@
     <ClCompile Include="LimLighting.cpp">
       <Filter>ソース ファイル\フレームワーク</Filter>
     </ClCompile>
+    <ClCompile Include="SpotLight.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite2D.h">
@@ -193,6 +196,9 @@
     <ClInclude Include="PointPixelLighting.h">
       <Filter>ソース ファイル\フレームワーク</Filter>
     </ClInclude>
+    <ClInclude Include="SpotLight.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\Common.hlsl">
@@ -250,6 +256,12 @@
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\PointPixelLightingVS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\SpotLightPS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\SpotLightVS.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
   </ItemGroup>
