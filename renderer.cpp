@@ -9,8 +9,6 @@
 #include <io.h>
 #include "renderer.h"
 
-
-
 //*********************************************************
 // 構造体
 //*********************************************************
@@ -27,8 +25,6 @@ IDXGISwapChain*         g_SwapChain = NULL;
 ID3D11RenderTargetView* g_RenderTargetView = NULL;
 ID3D11DepthStencilView* g_DepthStencilView = NULL;
 
-
-
 ID3D11VertexShader*     g_VertexShader = NULL;
 ID3D11PixelShader*      g_PixelShader = NULL;
 ID3D11InputLayout*      g_VertexLayout = NULL;
@@ -42,9 +38,7 @@ ID3D11Buffer*			g_MaterialBuffer = NULL;
 ID3D11Buffer*			g_LightBuffer = NULL;
 ID3D11Buffer*			g_CameraBuffer = NULL;
 ID3D11Buffer*			g_ParameterBuffer = NULL;
-
-
-
+//ID3D11Buffer*           g_SpotLightBuffer = NULL;	
 
 XMMATRIX				g_WorldMatrix;
 XMMATRIX				g_ViewMatrix;
@@ -52,8 +46,6 @@ XMMATRIX				g_ProjectionMatrix;
 
 ID3D11DepthStencilState* g_DepthStateEnable;
 ID3D11DepthStencilState* g_DepthStateDisable;
-
-
 
 ID3D11Device* GetDevice( void )
 {
@@ -65,7 +57,6 @@ ID3D11DeviceContext* GetDeviceContext( void )
 {
 	return g_ImmediateContext;
 }
-
 
 void SetDepthEnable( bool Enable )
 {
@@ -124,8 +115,6 @@ void SetProjectionMatrix( XMMATRIX ProjectionMatrix )
 	XMStoreFloat4x4(&matrix, projection);
 	g_ImmediateContext->UpdateSubresource(g_ProjectionBuffer, 0, NULL, &matrix, 0, 0);
 }
-
-
 
 void SetMaterial( MATERIAL Material )
 {
@@ -189,8 +178,6 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	g_D3DDevice->CreateRenderTargetView( pBackBuffer, NULL, &g_RenderTargetView );
 	pBackBuffer->Release();
 
-
-
 	//デプスステンシル用テクスチャー作成
 	ID3D11Texture2D* depthTexture = NULL;
 	D3D11_TEXTURE2D_DESC td;
@@ -228,8 +215,6 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	vp.TopLeftY = 0;
 	g_ImmediateContext->RSSetViewports( 1, &vp );
 
-
-
 	// ラスタライザステート設定
 	D3D11_RASTERIZER_DESC rd; 
 	ZeroMemory( &rd, sizeof( rd ) );
@@ -245,9 +230,6 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	g_D3DDevice->CreateRasterizerState( &rd, &rs );
 
 	g_ImmediateContext->RSSetState( rs );
-
-
-
 
 	// ブレンドステート設定
 	D3D11_BLEND_DESC blendDesc;
@@ -267,7 +249,6 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	ID3D11BlendState* blendState = NULL;
 	g_D3DDevice->CreateBlendState( &blendDesc, &blendState );
 	g_ImmediateContext->OMSetBlendState( blendState, blendFactor, 0xffffffff );
-
 
 	// 深度ステンシルステート設定
 	D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
@@ -348,6 +329,12 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	g_D3DDevice->CreateBuffer(&hBufferDesc, NULL, &g_ParameterBuffer);
 	g_ImmediateContext->PSSetConstantBuffers(6, 1, &g_ParameterBuffer);
 
+	//// b7: SpotLightバッファ
+	////ID3D11Buffer* g_SpotLightBuffer = NULL;  // グローバルに追加
+	//hBufferDesc.ByteWidth = sizeof(SPOTLIGHT);
+	//g_D3DDevice->CreateBuffer(&hBufferDesc, NULL, &g_SpotLightBuffer);
+	//g_ImmediateContext->PSSetConstantBuffers(7, 1, &g_SpotLightBuffer);
+
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -357,7 +344,6 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 	return S_OK;
 }
-
 
 //=============================================================================
 // 終了処理
@@ -459,4 +445,7 @@ void SetLight(LIGHT Light)
 {
 	g_ImmediateContext->UpdateSubresource(g_LightBuffer, 0, NULL, &Light, 0, 0);
 }
-
+//void SetSpotLight(SPOTLIGHT SpotLight)
+//{
+//	g_ImmediateContext->UpdateSubresource(g_SpotLightBuffer, 0, NULL, &SpotLight, 0, 0);
+//}

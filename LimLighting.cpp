@@ -47,7 +47,7 @@ HRESULT LimLighting::Init(void)
 	Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
 	Light.Diffuse = XMFLOAT4(0.9f, 0.9f, 0.9f, 1.0f);
 	Light.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
-	Light.PointLightParam = XMFLOAT4(3.0f, 0.0f, 0.0f, 0.0f);
+	Light.PointLightParam = XMFLOAT4(3.0f, 6.0f, 0.0f, 0.0f);
 
 
 	//モデル読み込み
@@ -110,25 +110,26 @@ void LimLighting::Update(void)
 		Rotate.x -= 60.0f * (1.0f / 60.0f);
 	}
 
-	ImGui::Begin("LimLighting");
-	{
-		ImGui::SliderFloat("PointLightParam.x",
-			&Light.PointLightParam.x, 0.5f, 5.0f, "%.2f");
+	// //ImGui でパラメータを調整できるようにする（デバッグ用）
+	// //必要ならファイル先頭に #include "imgui.h" を追加してください
+	//ImGui::Begin("LimLighting");
+	//{
+	//	// PointLightParam.x: 範囲（視認用）、PointLightParam.y: リムの鋭さ（exponent）
+	//	ImGui::SliderFloat("PointLightParam.x (range)", &Light.PointLightParam.x, 0.5f, 10.0f, "%.2f");
+	//	ImGui::SliderFloat("Rim Exponent (PointLightParam.y)", &Light.PointLightParam.y, 0.1f, 20.0f, "%.2f");
 
-		ImGui::SliderFloat("Position.x",
-			&Light.Position.x, -2.0f, 2.0f, "%.2f");
-		ImGui::SliderFloat("Position.y",
-			&Light.Position.y, -2.0f, 2.0f, "%.2f");
-		ImGui::SliderFloat("Position.z",
-			&Light.Position.z, -2.0f, 2.0f, "%.2f");
+	//	// ライト位置を操作（float4 の先頭アドレスを渡す）
+	//	ImGui::SliderFloat3("Light.Position", (float*)&Light.Position, -5.0f, 5.0f);
 
-		// デバッグ表示: スライダーで変化しているかを可視化
-		ImGui::Separator();
-		ImGui::Text("Light.PointLightParam.x = %.3f", Light.PointLightParam.x);
-		ImGui::Text("Light.Position = %.3f, %.3f, %.3f", Light.Position.x, Light.Position.y, Light.Position.z);
-	}
-	ImGui::End();
+	//	// デバッグ表示
+	//	ImGui::Separator();
+	//	ImGui::Text("Light.PointLightParam = %.3f, %.3f", Light.PointLightParam.x, Light.PointLightParam.y);
+	//	ImGui::Text("Light.Position = %.3f, %.3f, %.3f", Light.Position.x, Light.Position.y, Light.Position.z);
+	//}
+	//ImGui::End();
 
+	// 安全策：指数は 0 にならないようにクランプ
+	if (Light.PointLightParam.y < 0.0001f) Light.PointLightParam.y = 0.0001f;
 }
 
 //=============================================================================
@@ -144,6 +145,18 @@ void LimLighting::Draw(void)
 	GetDeviceContext()->PSSetShader(PixelShader, NULL, 0);
 
 	SetLight(Light);
+	SetLight(Light);
+
+	//SPOTLIGHT sl;
+	//ZeroMemory(&sl, sizeof(sl));
+	//sl.Diffuse = XMFLOAT4(1.0f, 0.9f, 0.7f, 1.0f);
+	//sl.Ambient = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
+	//sl.Position = XMFLOAT4(0.0f, 1.5f, 0.0f, 1.0f); // ライト位置
+	//sl.Direction = XMFLOAT4(0.0f, -3.0f, 0.0f, 0.0f); // 下向き
+	//sl.ConeAngle = 35.0f;
+	//sl.Attenuation = 0.1f;
+	//sl.Pow = 5.0f;
+	//SetSpotLight(sl);
 
 
 	{//3Dポリゴン１つずつの処理
@@ -196,3 +209,4 @@ void LimLighting::Draw(void)
 
 
 }
+

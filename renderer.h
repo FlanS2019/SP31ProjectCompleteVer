@@ -50,6 +50,20 @@ struct LIGHT
 	XMFLOAT4 GroundNormal;
 };
 
+struct SPOTLIGHT
+{
+	XMFLOAT4 Diffuse;
+	XMFLOAT4 Ambient;
+	XMFLOAT4 Position;
+	XMFLOAT4 Direction;
+	float    ConeAngle;
+	float    Attenuation;
+	float    Pow;
+	float    _pad;
+};
+
+//void SetSpotLight(SPOTLIGHT SpotLight);
+
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************

@@ -1,4 +1,3 @@
-
 #pragma once
 
 //Camera.h
@@ -23,4 +22,8 @@ void	InitCamera();
 void	FinalizeCamera();
 void	UpdateCamera();
 void	DrawCamera();
+
+// Camera クラスのインスタンスを取得するグローバル関数の宣言
+class Camera; // Camera クラスの前方宣言（既に定義済みの場合は不要）
+Camera* GetCamera();
 

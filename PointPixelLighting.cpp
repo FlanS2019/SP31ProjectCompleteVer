@@ -119,25 +119,25 @@ void PointPixelLighting::Update(void)
 		Rotate.x -= 60.0f * (1.0f / 60.0f);
 	}
 
-	// Begin の戻り値をチェックする形式に変更（描画可否の確認）
-	if (ImGui::Begin("PointPixelLighting"))
-	{
-		ImGui::Text("Debug ImGui active"); // シンプル表示でウィンドウの有無を確かめる
-		ImGui::SliderFloat("PointLightParam.x",
-			&Light.PointLightParam.x, 0.5f, 5.0f, "%.2f");
+	//// Begin の戻り値をチェックする形式に変更（描画可否の確認）
+	//if (ImGui::Begin("PointPixelLighting"))
+	//{
+	//	ImGui::Text("Debug ImGui active"); // シンプル表示でウィンドウの有無を確かめる
+	//	ImGui::SliderFloat("PointLightParam.x",
+	//		&Light.PointLightParam.x, 0.5f, 5.0f, "%.2f");
 
-		ImGui::SliderFloat("Position.x",
-			&Light.Position.x, -2.0f, 2.0f, "%.2f");
-		ImGui::SliderFloat("Position.y",
-			&Light.Position.y, -2.0f, 2.0f, "%.2f");
-		ImGui::SliderFloat("Position.z",
-			&Light.Position.z, -2.0f, 2.0f, "%.2f");
-		// デバッグ表示: スライダーで変化しているかを可視化
-		ImGui::Separator();
-		ImGui::Text("Light.PointLightParam.x = %.3f", Light.PointLightParam.x);
-		ImGui::Text("Light.Position = %.3f, %.3f, %.3f", Light.Position.x, Light.Position.y, Light.Position.z);
-	}
-	ImGui::End();
+	//	ImGui::SliderFloat("Position.x",
+	//		&Light.Position.x, -2.0f, 2.0f, "%.2f");
+	//	ImGui::SliderFloat("Position.y",
+	//		&Light.Position.y, -2.0f, 2.0f, "%.2f");
+	//	ImGui::SliderFloat("Position.z",
+	//		&Light.Position.z, -2.0f, 2.0f, "%.2f");
+	//	// デバッグ表示: スライダーで変化しているかを可視化
+	//	ImGui::Separator();
+	//	ImGui::Text("Light.PointLightParam.x = %.3f", Light.PointLightParam.x);
+	//	ImGui::Text("Light.Position = %.3f, %.3f, %.3f", Light.Position.x, Light.Position.y, Light.Position.z);
+	//}
+	//ImGui::End();
 
 }
 
@@ -155,6 +155,16 @@ void PointPixelLighting::Draw(void)
 
 	SetLight(Light);
 
+	//SPOTLIGHT sl;
+	//ZeroMemory(&sl, sizeof(sl));
+	//sl.Diffuse = XMFLOAT4(1.0f, 0.9f, 0.7f, 1.0f);
+	//sl.Ambient = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
+	//sl.Position = XMFLOAT4(0.0f, 1.5f, 0.0f, 1.0f); // ライト位置
+	//sl.Direction = XMFLOAT4(0.0f, -1.0f, 0.0f, 0.0f); // 下向き
+	//sl.ConeAngle = 25.0f;
+	//sl.Attenuation = 0.3f;
+	//sl.Pow = 9.5f;
+	//SetSpotLight(sl);
 
 	{//3Dポリゴン１つずつの処理
 		//テクスチャをセット

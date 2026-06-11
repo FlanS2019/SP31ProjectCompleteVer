@@ -10,7 +10,7 @@ Camera		g_Camera;	//カメラ管理構造体
 void	InitCamera()
 {
 	//カメラの初期化
-	g_Camera.Position = XMFLOAT3(0.0f, 1.0f, -1.5f);	//カメラ基本座標
+	g_Camera.Position = XMFLOAT3(0.0f, 1.5f, -2.0f);	//カメラ基本座標
 	g_Camera.UpVector = XMFLOAT3(0.0f, 1.0f, 0.0f);		//カメラの上方ベクトル
 	g_Camera.AtPosition = XMFLOAT3(0.0f, 0.0f, 0.0f);	//カメラの注視点座標
 	g_Camera.Fov = 45.0f;								//画角
@@ -72,6 +72,10 @@ void	DrawCamera()//3D使用時
 	SetViewMatrix(ViewMatrix);
 	//カメラ座標セット
 	SetCameraPosition(g_Camera.Position);
+}
+Camera* GetCamera()
+{
+	return &g_Camera;
 }
 
 

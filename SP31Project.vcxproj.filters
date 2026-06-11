@@ -50,9 +50,6 @@
     <ClCompile Include="Manager.cpp">
       <Filter>ソース ファイル\フレームワーク</Filter>
     </ClCompile>
-    <ClCompile Include="model.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClCompile>
     <ClCompile Include="renderer.cpp">
       <Filter>ソース ファイル\フレームワーク</Filter>
     </ClCompile>
@@ -98,17 +95,26 @@
     <ClCompile Include="PixelLightingBlinPhong.cpp">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
+    <ClCompile Include="SpotLight.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClCompile>
+    <ClCompile Include="cube.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClCompile>
+    <ClCompile Include="BumpField.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClCompile>
     <ClCompile Include="HemiSpherLight.cpp">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
     <ClCompile Include="PointPixelLighting.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
     <ClCompile Include="LimLighting.cpp">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClCompile>
-    <ClCompile Include="SpotLight.cpp">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClCompile>
+    <ClCompile Include="model.cpp">
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -134,9 +140,6 @@
       <Filter>ソース ファイル\フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="Manager.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClInclude>
-    <ClInclude Include="model.h">
       <Filter>ソース ファイル\フレームワーク</Filter>
     </ClInclude>
     <ClInclude Include="renderer.h">
@@ -190,14 +193,23 @@
     <ClInclude Include="HemiSpherLight.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
-    <ClInclude Include="LimLighting.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClInclude>
-    <ClInclude Include="PointPixelLighting.h">
-      <Filter>ソース ファイル\フレームワーク</Filter>
-    </ClInclude>
     <ClInclude Include="SpotLight.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClInclude>
+    <ClInclude Include="BumpField.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClInclude>
+    <ClInclude Include="cube.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClInclude>
+    <ClInclude Include="PointPixelLighting.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClInclude>
+    <ClInclude Include="LimLighting.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClInclude>
+    <ClInclude Include="model.h">
+      <Filter>ソース ファイル\フレームワーク</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -246,22 +258,28 @@
     <FxCompile Include="shader\HemiSphereLightingVS.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
-    <FxCompile Include="shader\LimLightingPS.hlsl">
-      <Filter>ソース ファイル\shader</Filter>
-    </FxCompile>
     <FxCompile Include="shader\LimLightingVS.hlsl">
-      <Filter>ソース ファイル\shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\PointPixelLightingPS.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\PointPixelLightingVS.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
+    <FxCompile Include="shader\SpotLightVS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\PointPixelLightingPS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
     <FxCompile Include="shader\SpotLightPS.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
-    <FxCompile Include="shader\SpotLightVS.hlsl">
+    <FxCompile Include="shader\LimLightingPS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\CubeVS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\CubePS.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
   </ItemGroup>

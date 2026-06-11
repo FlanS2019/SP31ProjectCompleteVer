@@ -18,7 +18,7 @@ HRESULT HemiSpherLight::Init(void)
 	Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
 	//モデルの読み込み
-	Model = ModelLoad("asset\\model\\model.fbx");
+	Model = ModelLoad("asset\\model\\cube.fbx");
 
 	// ライト構造体の初期化
 	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);

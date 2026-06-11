@@ -1,78 +1,107 @@
-/*==============================================================================
-   [SpotLightBuffer.cpp]
-   SpotLightPS.hlsl の cbuffer(b4) へパラメータを渡すヘルパー実装例
-   ※ renderer.cpp / renderer.h に統合するか、SpotLight::Draw() 内で使う
-==============================================================================*/
+#include "SpotLight.h"
+#include "sprite.h"
+#include "Camera.h"
+#include "texture.h"
+#include "model.h"
+#include "keyboard.h"
 
-// -----------------------------------------------------------------------
-// 定数バッファに対応する CPU 側の構造体
-// （SpotLight.h か renderer.h に追加してください）
-// -----------------------------------------------------------------------
-
-struct SPOT_LIGHT
+HRESULT SpotLight::Init(void)
 {
-    XMFLOAT4 Diffuse;       // 光の色
-    XMFLOAT4 Ambient;       // 環境光
-    XMFLOAT4 Position;      // ライト位置
-    XMFLOAT4 Direction;     // 照射方向（正規化済み）
-    float    ConeAngle;     // 半頂角（度数）
-    float    Attenuation;   // 距離減衰係数
-    float    Pow;           // ソフトエッジ用べき乗
-    float    _pad;
-};
+    CreateVertexShader(&VertexShader, &VertexLayout, "SpotLightVS.cso");
+    CreatePixelShader(&PixelShader, "SpotLightPS.cso");
 
-// -----------------------------------------------------------------------
-// SpotLight クラスのメンバー変数に追加するもの（SpotLight.h に追記）
-// -----------------------------------------------------------------------
-//   SPOT_LIGHT       SpotLightParam;
-//   ID3D11Buffer*    SpotLightBuffer;
-//   ID3D11Buffer*    CameraBuffer;
+    Position = XMFLOAT3(0.0f + (0.5f * 0.0f), 0.2f, 0.0f);
+    Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
 
-// -----------------------------------------------------------------------
-// Init() 内に追加するバッファ生成コード
-// -----------------------------------------------------------------------
-/*
-    // SpotLight 定数バッファ作成
-    D3D11_BUFFER_DESC cbd = {};
-    cbd.ByteWidth           = sizeof(SPOT_LIGHT);
-    cbd.Usage               = D3D11_USAGE_DEFAULT;
-    cbd.BindFlags           = D3D11_BIND_CONSTANT_BUFFER;
-    GetDevice()->CreateBuffer(&cbd, nullptr, &SpotLightBuffer);
+    Model = ModelLoad("asset\\model\\model.fbx");
 
-    // Camera 定数バッファ作成
-    cbd.ByteWidth = sizeof(XMFLOAT4);
-    GetDevice()->CreateBuffer(&cbd, nullptr, &CameraBuffer);
+    return S_OK;
+}
 
-    // スポットライトパラメータ初期化
-    SpotLightParam.Diffuse     = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-    SpotLightParam.Ambient     = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
-    SpotLightParam.Position    = XMFLOAT4(0.3f, 0.7f, -1.0f, 1.0f); // ライト位置（調整可）
-    XMVECTOR dir = XMVector3Normalize(XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f));
-    XMStoreFloat4(&SpotLightParam.Direction, dir);
-    SpotLightParam.ConeAngle   = 23.0f;   // UIのCone Angle
-    SpotLightParam.Attenuation = 10.0f;   // UIのAttenuation
-    SpotLightParam.Pow         = 9.49f;   // UIのPow
-*/
+void SpotLight::Finalize(void)
+{
+    VertexLayout->Release();
+    VertexShader->Release();
+    PixelShader->Release();
 
-// -----------------------------------------------------------------------
-// Draw() 内に追加する定数バッファ送信コード
-// -----------------------------------------------------------------------
-/*
-    // SpotLight パラメータを更新してセット（PSスロット4）
-    GetDeviceContext()->UpdateSubresource(SpotLightBuffer, 0, nullptr, &SpotLightParam, 0, 0);
-    GetDeviceContext()->PSSetConstantBuffers(4, 1, &SpotLightBuffer);
+    ModelRelease(Model);
+}
 
-    // カメラ位置を取得してセット（PSスロット5）
-    XMFLOAT3 camPos = GetCamera()->GetPosition(); // ※Camera クラスに合わせて変更
-    XMFLOAT4 camPos4 = XMFLOAT4(camPos.x, camPos.y, camPos.z, 1.0f);
-    GetDeviceContext()->UpdateSubresource(CameraBuffer, 0, nullptr, &camPos4, 0, 0);
-    GetDeviceContext()->PSSetConstantBuffers(5, 1, &CameraBuffer);
-*/
+void SpotLight::Update(void)
+{
+    if (Keyboard_IsKeyDown(KK_UP))
+    {
+        Position.z += 0.3f * (1.0f / 60.0f);
+    }
+    else if (Keyboard_IsKeyDown(KK_DOWN))
+    {
+        Position.z -= 0.3f * (1.0f / 60.0f);
+    }
+    if (Keyboard_IsKeyDown(KK_RIGHT))
+    {
+        Position.x += 0.3f * (1.0f / 60.0f);
+    }
+    else if (Keyboard_IsKeyDown(KK_LEFT))
+    {
+        Position.x -= 0.3f * (1.0f / 60.0f);
+    }
+    if (Keyboard_IsKeyDown(KK_Z))
+    {
+        Rotate.x += 60.0f * (1.0f / 60.0f);
+    }
+    else if (Keyboard_IsKeyDown(KK_X))
+    {
+        Rotate.x -= 60.0f * (1.0f / 60.0f);
+    }
+}
 
-// -----------------------------------------------------------------------
-// Finalize() 内に追加する解放コード
-// -----------------------------------------------------------------------
-/*
-    if (SpotLightBuffer) { SpotLightBuffer->Release(); SpotLightBuffer = nullptr; }
-    if (CameraBuffer)    { CameraBuffer->Release();    CameraBuffer = nullptr;    }
-*/
+void SpotLight::Draw(void)
+{
+    GetDeviceContext()->IASetInputLayout(VertexLayout);
+
+    GetDeviceContext()->VSSetShader(VertexShader, NULL, 0);
+
+    GetDeviceContext()->PSSetShader(PixelShader, NULL, 0);
+
+    ID3D11ShaderResourceView* tex = GetTexture(TexID);
+    GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
+
+    XMMATRIX TranslationMatrix =
+        XMMatrixTranslation(
+            Position.x,
+            Position.y,
+            Position.z
+        );
+
+    XMMATRIX RotationMatrix =
+        XMMatrixRotationRollPitchYaw(
+            XMConvertToRadians(Rotate.x),
+            XMConvertToRadians(Rotate.y),
+            XMConvertToRadians(Rotate.z)
+        );
+
+    XMMATRIX ScalingMatrix =
+        XMMatrixScaling(
+            Scale.x,
+            Scale.y,
+            Scale.z
+        );
+
+    XMMATRIX WorldMatrix =
+        ScalingMatrix *
+        RotationMatrix *
+        TranslationMatrix;
+
+    SetWorldMatrix(WorldMatrix);
+
+    GetDeviceContext()->IASetPrimitiveTopology(
+        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST
+    );
+
+    MATERIAL material;
+    ZeroMemory(&material, sizeof(MATERIAL));
+    material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+    SetMaterial(material);
+
+    ModelDraw(Model);
+}

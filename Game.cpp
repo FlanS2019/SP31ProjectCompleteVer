@@ -19,6 +19,10 @@
 
 #include	"PointPixelLighting.h"
 #include	"LimLighting.h"
+
+#include "Cube.h"
+#include "SpotLight.h"
+
 //===============================================
 //グローバル変数
  
@@ -30,10 +34,11 @@ PolygonModel	Model;
 //VertexDirectionalLighting	VDLModel;
 //PixelDirectionalLighting	PDLModel;
 //PixelLightingBlinPhong		PLBPModel;
-//HemiSpherLight				HSLModel;
+HemiSpherLight				HSLModel;
 PointPixelLighting			PPLModel;
 LimLighting					LLModel;
-
+//Cube cube;
+SpotLight					SLModel;
 // グローバルライト構造体の追加
 LIGHT Light;
 
@@ -63,14 +68,18 @@ void InitGame()
 	test2D.Init();
 
 	Field.Init();
-	//Model.Init();
+	Model.Init();
+	LLModel.Init();
+	PPLModel.Init();
+	SLModel.Init();
+
+
 	//VDLModel.Init();
 	//PDLModel.Init();
 	//PLBPModel.Init();
+	//cube.Init();
 	//HSLModel.Init();
-	PPLModel.Init();
-	LLModel.Init();
-
+	
 	// ライト構造体の初期化
 	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
 	dir = XMVector3Normalize(dir);
@@ -94,14 +103,16 @@ void FinalizeGame()
 	test2D.Finalize();
 
 	Field.Finalize();
-	//Model.Finalize();
+	Model.Finalize();
+	LLModel.Finalize();
+
+	PPLModel.Finalize();
+	SLModel.Finalize();
 	//VDLModel.Finalize();
 	//PDLModel.Finalize();
 	//PLBPModel.Finalize();
+	//cube.Finalize();
 	//HSLModel.Finalize();
-
-	PPLModel.Finalize();
-	LLModel.Finalize();
 	TextureFinalize();
 }
 
@@ -116,13 +127,15 @@ void UpdateGame()
 		test2D.Update();
 
 		Field.Update();
-		//Model.Update();
+		Model.Update();
+		LLModel.Update();
+		PPLModel.Update();
+		SLModel.Update();
 		//VDLModel.Update();
 		//PDLModel.Update();
 		//PLBPModel.Update();
+		//cube.Update();
 		//HSLModel.Update();
-		PPLModel.Update();
-		LLModel.Update();
 	}
 
 }
@@ -143,12 +156,14 @@ void DrawGame()
 		DrawCamera();
 
 		Field.Draw();
-		//Model.Draw();
+		LLModel.Draw();
+		Model.Draw();
+		PPLModel.Draw();
+		SLModel.Draw();
 		//VDLModel.Draw();
 		//PDLModel.Draw();
 		//PLBPModel.Draw();
+		//cube.Draw();
 		//HSLModel.Draw();
-		PPLModel.Draw();
-		LLModel.Draw();
 	}
 }

@@ -35,23 +35,16 @@ HRESULT PolygonModel::Init(void)
 {
 
 	//シェーダー読み込み
-	CreateVertexShader(&VertexShader, &VertexLayout, "UnlitTextureVS.cso");
-	CreatePixelShader(&PixelShader, "UnlitTexturePS.cso");
-
-
-
+	CreateVertexShader(&VertexShader, &VertexLayout, "PointPixelLightingVS.cso");
+	CreatePixelShader(&PixelShader, "PointPixelLightingPS.cso");
 
 	//3Dオブジェクト管理構造体の初期化
-	Position = XMFLOAT3(0.0f, 0.2f, 0.0f);
+	Position = XMFLOAT3(0.0f, 0.2f, 0.5f);
 	Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
-
+	Scale = XMFLOAT3(1.2f, 1.2f, 1.2f);
 
 	//モデル読み込み
-	Model = ModelLoad("asset\\model\\model.fbx");
-
-
-
+	Model = ModelLoad("asset\\model\\cube.fbx");
 
 	return S_OK;
 }
@@ -101,10 +94,6 @@ void PolygonModel::Update(void)
 	{
 		Rotate.x -= 60.0f * (1.0f / 60.0f);
 	}
-
-
-
-
 }
 
 //=============================================================================
@@ -120,7 +109,6 @@ void PolygonModel::Draw(void)
 	GetDeviceContext()->VSSetShader(VertexShader, NULL, 0);
 	//ピクセルシェーダーをセット
 	GetDeviceContext()->PSSetShader(PixelShader, NULL, 0);
-
 
 
 	{//3Dポリゴン１つずつの処理
