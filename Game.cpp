@@ -38,6 +38,7 @@ HemiSpherLight				HSLModel;
 PointPixelLighting			PPLModel;
 LimLighting					LLModel;
 //Cube cube;
+
 SpotLight					SLModel;
 // グローバルライト構造体の追加
 LIGHT Light;
@@ -84,14 +85,17 @@ void InitGame()
 	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
 	dir = XMVector3Normalize(dir);
 	XMStoreFloat4(&Light.Direction, dir); // 光のベクトル
+	Light.Position = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f); // 光の位置
 	Light.Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f); // 光の色
 	Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f); // 環境光
+	Light.PointLightParam = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f); // 距離減衰のパラメータ
+	Light.Angle.x = XMConvertToRadians(0.0f); // コーンの角度
 
-	dir = XMVector4Normalize(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
-	XMStoreFloat4(&Light.GroundNormal, dir);
+	//dir = XMVector4Normalize(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
+	//XMStoreFloat4(&Light.GroundNormal, dir);
 
-	Light.SkyColor = XMFLOAT4(0.6f, 0.0f, 0.0f, 1.0f); // 赤っぽい
-	Light.GroundColor = XMFLOAT4(0.0f, 0.6f, 0.0f, 1.0f); // 緑っぽい
+	//Light.SkyColor = XMFLOAT4(0.6f, 0.0f, 0.0f, 1.0f); // 赤っぽい
+	//Light.GroundColor = XMFLOAT4(0.0f, 0.6f, 0.0f, 1.0f); // 緑っぽい
 
 }
 
@@ -138,6 +142,29 @@ void UpdateGame()
 		//HSLModel.Update();
 	}
 
+	ImGui::Begin("SPOT LIGHT");
+	{
+		ImGui::SliderFloat("Diffuse-R", &Light.Diffuse.x, 0.0f, 1.0f, "%.1f");
+		ImGui::SliderFloat("Diffuse-G", &Light.Diffuse.y, 0.0f, 1.0f, "%.1f");
+		ImGui::SliderFloat("Diffuse-B", &Light.Diffuse.z, 0.0f, 1.0f, "%.1f");
+
+		float angle = XMConvertToDegrees(Light.Angle.x); // 度に変換
+		ImGui::SliderFloat("Cone Angle", &angle, 5.0f, 45.0f, "%.1f");
+		Light.Angle.x = XMConvertToRadians(angle); // ラジアンに変換
+
+		ImGui::SliderFloat("Attenuation", &Light.PointLightParam.x, 0.0f, 10.0f, "%.1f"); // 距離
+		ImGui::SliderFloat("Pow", &Light.PointLightParam.y, 1.0f, 50.0f, "%0.2f"); // 調整用
+
+		ImGui::SliderFloat("Position.x",
+			&Light.Position.x, -2.0f, 2.0f, "%.1f");
+
+		ImGui::SliderFloat("Position.y",
+			&Light.Position.y, -2.0f, 2.0f, "%.1f");
+
+		ImGui::SliderFloat("Position.z",
+			&Light.Position.z, -2.0f, 2.0f, "%.1f");
+	}
+	ImGui::End();
 }
 
 //===============================================

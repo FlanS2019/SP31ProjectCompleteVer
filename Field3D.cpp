@@ -8,7 +8,6 @@
 ==============================================================================*/
 #include "Field3D.h"
 #include "sprite.h"
-
 #include "texture.h"
 
 //*****************************************************************************
@@ -72,8 +71,8 @@ HRESULT Field3D::Init(void)
 	TexID = TextureLoad(L"asset\\texture\\sura.jpg");
 
 	//シェーダー読み込み
-	CreateVertexShader(&VertexShader, &VertexLayout, "PixelDirectionalLightingVS.cso");
-	CreatePixelShader(&PixelShader, "PixelDirectionalLightingPS.cso");
+	CreateVertexShader(&VertexShader, &VertexLayout, "SpotLightVS.cso");
+	CreatePixelShader(&PixelShader, "SpotLightPS.cso");
 
 	//頂点バッファ作成
 	{
