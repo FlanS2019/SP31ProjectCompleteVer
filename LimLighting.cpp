@@ -128,8 +128,8 @@ void LimLighting::Update(void)
 	//}
 	//ImGui::End();
 
-	// 安全策：指数は 0 にならないようにクランプ
-	if (Light.PointLightParam.y < 0.0001f) Light.PointLightParam.y = 0.0001f;
+	//// 安全策：指数は 0 にならないようにクランプ
+	//if (Light.PointLightParam.y < 0.0001f) Light.PointLightParam.y = 0.0001f;
 }
 
 //=============================================================================

@@ -10,11 +10,11 @@ HRESULT SpotLight::Init(void)
     CreateVertexShader(&VertexShader, &VertexLayout, "SpotLightVS.cso");
     CreatePixelShader(&PixelShader, "SpotLightPS.cso");
 
-    Position = XMFLOAT3(0.0f+0.5f*2,0.3f,0.0f);
+    Position = XMFLOAT3(0.7f, 0.5f, 0.5f);
     Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
+	Scale = XMFLOAT3(0.8f, 0.8f, 0.8f);
 
-    Model = ModelLoad("asset\\model\\model.fbx");
+    Model = ModelLoad("asset\\model\\cube.fbx");
 
     return S_OK;
 }

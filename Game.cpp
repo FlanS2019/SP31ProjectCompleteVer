@@ -69,7 +69,7 @@ void InitGame()
 	test2D.Init();
 
 	Field.Init();
-	Model.Init();
+	//Model.Init();
 	LLModel.Init();
 	PPLModel.Init();
 	SLModel.Init();
@@ -82,14 +82,15 @@ void InitGame()
 	//HSLModel.Init();
 	
 	// ライト構造体の初期化
-	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
+	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f);
 	dir = XMVector3Normalize(dir);
 	XMStoreFloat4(&Light.Direction, dir); // 光のベクトル
-	Light.Position = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f); // 光の位置
-	Light.Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f); // 光の色
-	Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f); // 環境光
-	Light.PointLightParam = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f); // 距離減衰のパラメータ
-	Light.Angle.x = XMConvertToRadians(0.0f); // コーンの角度
+	Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f); // 光の位置
+	Light.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f); // 光の色
+	Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 0.1f); // 環境光
+
+	Light.PointLightParam = XMFLOAT4(10.0f, 1.0f, 0.0f, 0.0f); // 距離減衰のパラメータ
+	Light.Angle.x = XMConvertToRadians(30.0f); // コーンの角度
 
 	//dir = XMVector4Normalize(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
 	//XMStoreFloat4(&Light.GroundNormal, dir);
@@ -107,7 +108,7 @@ void FinalizeGame()
 	test2D.Finalize();
 
 	Field.Finalize();
-	Model.Finalize();
+	//Model.Finalize();
 	LLModel.Finalize();
 
 	PPLModel.Finalize();
@@ -132,7 +133,7 @@ void UpdateGame()
 
 		Field.Update();
 		Model.Update();
-		LLModel.Update();
+		//LLModel.Update();
 		PPLModel.Update();
 		SLModel.Update();
 		//VDLModel.Update();
@@ -172,25 +173,30 @@ void UpdateGame()
 void DrawGame()
 {
 
-	// 2D用マトリクス設定
-	{
-		SetWorldViewProjection2D();
-		test2D.Draw();
-	}
-	//3D用マトリクス設定
-	{
-		SetDepthEnable(true);		//奥行き処理有効
-		DrawCamera();
+	
+	SetDepthEnable(true);		//奥行き処理有効
+	DrawCamera();
 
+	{//全体ライト表示
+		SetLight(Light);
 		Field.Draw();
-		LLModel.Draw();
-		Model.Draw();
-		PPLModel.Draw();
 		SLModel.Draw();
+	}
+
+	//3D用マトリクス設定//個別ライト表示
+	{
+		LLModel.Draw();
+		//Model.Draw();
+		PPLModel.Draw();
 		//VDLModel.Draw();
 		//PDLModel.Draw();
 		//PLBPModel.Draw();
 		//cube.Draw();
 		//HSLModel.Draw();
 	}
+	//// 2D用マトリクス設定
+	//{
+	//	SetWorldViewProjection2D();
+	//	test2D.Draw();
+	//}
 }

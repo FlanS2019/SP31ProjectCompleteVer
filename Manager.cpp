@@ -11,8 +11,6 @@ void InitManager()
 {
 	InitSprite();
 	SetScene(SCENE_GAME);
-
-
 }
 
 void FinalizeManager()
