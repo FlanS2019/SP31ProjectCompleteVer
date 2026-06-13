@@ -110,7 +110,6 @@ void LimLighting::Update(void)
 		Rotate.x -= 60.0f * (1.0f / 60.0f);
 	}
 
-	// //ImGui でパラメータを調整できるようにする（デバッグ用）
 	// //必要ならファイル先頭に #include "imgui.h" を追加してください
 	//ImGui::Begin("LimLighting");
 	//{

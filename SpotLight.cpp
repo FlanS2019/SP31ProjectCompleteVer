@@ -10,7 +10,7 @@ HRESULT SpotLight::Init(void)
     CreateVertexShader(&VertexShader, &VertexLayout, "SpotLightVS.cso");
     CreatePixelShader(&PixelShader, "SpotLightPS.cso");
 
-    Position = XMFLOAT3(0.7f, 0.5f, 0.5f);
+    Position = XMFLOAT3(0.7f, 0.5f, 0.0f);
     Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	Scale = XMFLOAT3(0.8f, 0.8f, 0.8f);
 
