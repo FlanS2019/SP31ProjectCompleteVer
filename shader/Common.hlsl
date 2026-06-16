@@ -48,7 +48,6 @@ struct LIGHT
     float4 GroundNormal;
 };
 
-
 cbuffer LightBuffer : register(b4)
 {
     LIGHT Light;

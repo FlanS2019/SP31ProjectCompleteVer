@@ -23,23 +23,29 @@
 #include "Cube.h"
 #include "SpotLight.h"
 
+#include "BumpField.h"
+#include "CookTorrance.h"
 //===============================================
 //グローバル変数
  
 Camera		CameraObject;
 Sprite2D	test2D;
 
-Field3D			Field;
+Field3D	Field;
 PolygonModel	Model;
+HemiSpherLight	HSLModel;
+PointPixelLighting	PPLModel;
+LimLighting	LLModel;
+BumpField	BumpField;
+SpotLight	SLModel;
+CookTorrance	CTModel;
+
+//Cube cube;
 //VertexDirectionalLighting	VDLModel;
 //PixelDirectionalLighting	PDLModel;
 //PixelLightingBlinPhong		PLBPModel;
-HemiSpherLight				HSLModel;
-PointPixelLighting			PPLModel;
-LimLighting					LLModel;
-//Cube cube;
 
-SpotLight					SLModel;
+
 // グローバルライト構造体の追加
 LIGHT Light;
 
@@ -68,29 +74,30 @@ void InitGame()
 
 	test2D.Init();
 
-	Field.Init();
+	
+	BumpField.Init();
+	CTModel.Init();
+
+	//Field.Init();
 	//Model.Init();
-	LLModel.Init();
-	PPLModel.Init();
-	SLModel.Init();
-
-
+	//LLModel.Init();
+	//PPLModel.Init();
+	//SLModel.Init();
 	//VDLModel.Init();
 	//PDLModel.Init();
 	//PLBPModel.Init();
 	//cube.Init();
 	//HSLModel.Init();
 	
-	// ライト構造体の初期化
-	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f);
-	dir = XMVector3Normalize(dir);
-	XMStoreFloat4(&Light.Direction, dir); // 光のベクトル
-	Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f); // 光の位置
-	Light.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f); // 光の色
-	Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 0.1f); // 環境光
-
-	Light.PointLightParam = XMFLOAT4(10.0f, 1.0f, 0.0f, 0.0f); // 距離減衰のパラメータ
-	Light.Angle.x = XMConvertToRadians(30.0f); // コーンの角度
+	//// ライト構造体の初期化
+	//XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f);
+	//dir = XMVector3Normalize(dir);
+	//XMStoreFloat4(&Light.Direction, dir); // 光のベクトル
+	//Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f); // 光の位置
+	//Light.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f); // 光の色
+	//Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 0.1f); // 環境光
+	//Light.PointLightParam = XMFLOAT4(10.0f, 1.0f, 0.0f, 0.0f); // 距離減衰のパラメータ
+	//Light.Angle.x = XMConvertToRadians(30.0f); // コーンの角度
 
 	//dir = XMVector4Normalize(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
 	//XMStoreFloat4(&Light.GroundNormal, dir);
@@ -106,13 +113,14 @@ void FinalizeGame()
 {
 	FinalizeCamera();
 	test2D.Finalize();
+	BumpField.Finalize();
+	CTModel.Finalize();
+	//Field.Finalize();
+	////Model.Finalize();
+	//LLModel.Finalize();
 
-	Field.Finalize();
-	//Model.Finalize();
-	LLModel.Finalize();
-
-	PPLModel.Finalize();
-	SLModel.Finalize();
+	//PPLModel.Finalize();
+	//SLModel.Finalize();
 	//VDLModel.Finalize();
 	//PDLModel.Finalize();
 	//PLBPModel.Finalize();
@@ -130,12 +138,13 @@ void UpdateGame()
 	{
 		UpdateCamera();
 		test2D.Update();
-
-		Field.Update();
-		Model.Update();
-		//LLModel.Update();
-		PPLModel.Update();
-		SLModel.Update();
+		BumpField.Update();
+		CTModel.Update();
+		//Field.Update();
+		//Model.Update();
+		////LLModel.Update();
+		//PPLModel.Update();
+		//SLModel.Update();
 		//VDLModel.Update();
 		//PDLModel.Update();
 		//PLBPModel.Update();
@@ -143,29 +152,29 @@ void UpdateGame()
 		//HSLModel.Update();
 	}
 
-	ImGui::Begin("SPOT LIGHT");
-	{
-		ImGui::SliderFloat("Diffuse-R", &Light.Diffuse.x, 0.0f, 1.0f, "%.1f");
-		ImGui::SliderFloat("Diffuse-G", &Light.Diffuse.y, 0.0f, 1.0f, "%.1f");
-		ImGui::SliderFloat("Diffuse-B", &Light.Diffuse.z, 0.0f, 1.0f, "%.1f");
+	//ImGui::Begin("SPOT LIGHT");
+	//{
+	//	ImGui::SliderFloat("Diffuse-R", &Light.Diffuse.x, 0.0f, 1.0f, "%.1f");
+	//	ImGui::SliderFloat("Diffuse-G", &Light.Diffuse.y, 0.0f, 1.0f, "%.1f");
+	//	ImGui::SliderFloat("Diffuse-B", &Light.Diffuse.z, 0.0f, 1.0f, "%.1f");
 
-		float angle = XMConvertToDegrees(Light.Angle.x); // 度に変換
-		ImGui::SliderFloat("Cone Angle", &angle, 5.0f, 45.0f, "%.1f");
-		Light.Angle.x = XMConvertToRadians(angle); // ラジアンに変換
+	//	float angle = XMConvertToDegrees(Light.Angle.x); // 度に変換
+	//	ImGui::SliderFloat("Cone Angle", &angle, 5.0f, 45.0f, "%.1f");
+	//	Light.Angle.x = XMConvertToRadians(angle); // ラジアンに変換
 
-		ImGui::SliderFloat("Attenuation", &Light.PointLightParam.x, 0.0f, 10.0f, "%.1f"); // 距離
-		ImGui::SliderFloat("Pow", &Light.PointLightParam.y, 1.0f, 50.0f, "%0.2f"); // 調整用
+	//	ImGui::SliderFloat("Attenuation", &Light.PointLightParam.x, 0.0f, 10.0f, "%.1f"); // 距離
+	//	ImGui::SliderFloat("Pow", &Light.PointLightParam.y, 1.0f, 50.0f, "%0.2f"); // 調整用
 
-		ImGui::SliderFloat("Position.x",
-			&Light.Position.x, -2.0f, 2.0f, "%.1f");
+	//	ImGui::SliderFloat("Position.x",
+	//		&Light.Position.x, -2.0f, 2.0f, "%.1f");
 
-		ImGui::SliderFloat("Position.y",
-			&Light.Position.y, -2.0f, 2.0f, "%.1f");
+	//	ImGui::SliderFloat("Position.y",
+	//		&Light.Position.y, -2.0f, 2.0f, "%.1f");
 
-		ImGui::SliderFloat("Position.z",
-			&Light.Position.z, -2.0f, 2.0f, "%.1f");
-	}
-	ImGui::End();
+	//	ImGui::SliderFloat("Position.z",
+	//		&Light.Position.z, -2.0f, 2.0f, "%.1f");
+	//}
+	//ImGui::End();
 }
 
 //===============================================
@@ -179,15 +188,17 @@ void DrawGame()
 
 	{//全体ライト表示
 		SetLight(Light);
-		Field.Draw();
-		SLModel.Draw();
+		//Field.Draw();
+		//SLModel.Draw();
 	}
 
 	//3D用マトリクス設定//個別ライト表示
 	{
-		LLModel.Draw();
-		//Model.Draw();
-		PPLModel.Draw();
+		BumpField.Draw();
+		CTModel.Draw();
+		//LLModel.Draw();
+		////Model.Draw();
+		//PPLModel.Draw();
 		//VDLModel.Draw();
 		//PDLModel.Draw();
 		//PLBPModel.Draw();

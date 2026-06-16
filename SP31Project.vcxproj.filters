@@ -101,9 +101,6 @@
     <ClCompile Include="cube.cpp">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
-    <ClCompile Include="BumpField.cpp">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
-    </ClCompile>
     <ClCompile Include="HemiSpherLight.cpp">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
@@ -115,6 +112,12 @@
     </ClCompile>
     <ClCompile Include="model.cpp">
       <Filter>ソース ファイル\フレームワーク</Filter>
+    </ClCompile>
+    <ClCompile Include="BumpField.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClCompile>
+    <ClCompile Include="CookTorrance.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -196,9 +199,6 @@
     <ClInclude Include="SpotLight.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
-    <ClInclude Include="BumpField.h">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
-    </ClInclude>
     <ClInclude Include="cube.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
@@ -210,6 +210,12 @@
     </ClInclude>
     <ClInclude Include="model.h">
       <Filter>ソース ファイル\フレームワーク</Filter>
+    </ClInclude>
+    <ClInclude Include="BumpField.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClInclude>
+    <ClInclude Include="CookTorrance.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -280,6 +286,21 @@
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\CubePS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\BumpPS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\BumpVS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\CookTorranceSub.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\CookTorrancePS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\CookTorranceVS.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
   </ItemGroup>
