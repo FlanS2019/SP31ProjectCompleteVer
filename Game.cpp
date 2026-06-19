@@ -25,6 +25,7 @@
 
 #include "BumpField.h"
 #include "CookTorrance.h"
+#include "DesneyPBR.h"
 //===============================================
 //ÉOÉçÅ[ÉoÉãïœêî
  
@@ -39,6 +40,7 @@ LimLighting	LLModel;
 BumpField	BumpField;
 SpotLight	SLModel;
 CookTorrance	CTModel;
+DesneyPBR	DPModel;
 
 //Cube cube;
 //VertexDirectionalLighting	VDLModel;
@@ -77,7 +79,7 @@ void InitGame()
 	
 	BumpField.Init();
 	CTModel.Init();
-
+	DPModel.Init();
 	//Field.Init();
 	//Model.Init();
 	//LLModel.Init();
@@ -115,6 +117,7 @@ void FinalizeGame()
 	test2D.Finalize();
 	BumpField.Finalize();
 	CTModel.Finalize();
+	DPModel.Finalize();
 	//Field.Finalize();
 	////Model.Finalize();
 	//LLModel.Finalize();
@@ -140,6 +143,7 @@ void UpdateGame()
 		test2D.Update();
 		BumpField.Update();
 		CTModel.Update();
+		DPModel.Update();
 		//Field.Update();
 		//Model.Update();
 		////LLModel.Update();
@@ -196,6 +200,7 @@ void DrawGame()
 	{
 		BumpField.Draw();
 		CTModel.Draw();
+		DPModel.Draw();
 		//LLModel.Draw();
 		////Model.Draw();
 		//PPLModel.Draw();

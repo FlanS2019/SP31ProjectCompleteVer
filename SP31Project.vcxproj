@@ -140,6 +140,7 @@
     <ClCompile Include="cube.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="DesneyPBR.cpp" />
     <ClCompile Include="Field3D.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HemiSpherLight.cpp" />
@@ -174,6 +175,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="debugPrintf.h" />
+    <ClInclude Include="DesneyPBR.h" />
     <ClInclude Include="DirectXTex.h" />
     <ClInclude Include="Field3D.h" />
     <ClInclude Include="Game.h" />
