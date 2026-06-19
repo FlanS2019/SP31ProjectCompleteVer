@@ -1,14 +1,14 @@
-#include "DesneyPBR.h"
+#include "DisnayPBR.h"
 #include "sprite.h"
 #include "Camera.h"
 #include "texture.h"
 #include "model.h"
 #include "keyboard.h"
 
-HRESULT DesneyPBR::Init(void)
+HRESULT DisnayPBR::Init(void)
 {
-    CreateVertexShader(&VertexShader, &VertexLayout, "CookTorranceVS.cso");
-    CreatePixelShader(&PixelShader, "CookTorrancePS.cso");
+    CreateVertexShader(&VertexShader, &VertexLayout, "DesneyPBRVS.cso");
+    CreatePixelShader(&PixelShader, "DesneyPBRPS.cso");
 
     Position = XMFLOAT3(0.0f, 0.5f, 0.0f);
     Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
@@ -20,20 +20,25 @@ HRESULT DesneyPBR::Init(void)
     XMStoreFloat4(&Light.Direction, dir); // 光のベクトル
     Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f); // 光の位置
     Light.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f); // 光の色
-    Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 0.1f); // 環境光
-    Light.PointLightParam = XMFLOAT4(10.0f, 1.0f, 0.0f, 0.0f); // 距離減衰のパラメータ
+    Light.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f); // 環境光
+    Light.PointLightParam = XMFLOAT4(2000.0f, 1.0f, 0.0f, 0.0f); // 距離減衰のパラメータ
     Light.Angle.x = XMConvertToRadians(20.0f); // コーンの角度
 
 	Parameter = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 	Parameter.x = 0.5f; // Roughness
 	Parameter.y = 0.8f; // Metallic
+	Parameter.z = 3.0f; // AO
 
     Model = ModelLoad("asset\\model\\model.fbx");
+
+    TexIDRoughness = TextureLoad(L"asset\\texture\\Roughness.png");
+    TexIDMetalness = TextureLoad(L"asset\\texture\\Metalness.png");
+
 
     return S_OK;
 }
 
-void DesneyPBR::Finalize(void)
+void DisnayPBR::Finalize(void)
 {
     VertexLayout->Release();
     VertexShader->Release();
@@ -42,7 +47,7 @@ void DesneyPBR::Finalize(void)
     ModelRelease(Model);
 }
 
-void DesneyPBR::Update(void)
+void DisnayPBR::Update(void)
 {
     if (Keyboard_IsKeyDown(KK_UP))
     {
@@ -69,17 +74,14 @@ void DesneyPBR::Update(void)
         Rotate.x -= 60.0f * (1.0f / 60.0f);
     }
 	ImGui::SetNextWindowSize(ImVec2(300, 500), ImGuiCond_FirstUseEver);
-    ImGui::Begin("TEST");
+	ImGui::Begin("Desney PBR");
     {
-		ImGui::SliderFloat("Roughness", &Parameter.x, 0.0f, 1.0f, "%.2f");
-
-		ImGui::SliderFloat("Metallic", &Parameter.y, 0.0f, 1.0f, "%.2f");
+		ImGui::SliderFloat("Light", &Parameter.z, 1.0f, 15.0f, "%.0f");
     }
-    ImGui::End();
-
+	ImGui::End();
 }
 
-void DesneyPBR::Draw(void)
+void DisnayPBR::Draw(void)
 {
     GetDeviceContext()->IASetInputLayout(VertexLayout);
 
@@ -87,8 +89,10 @@ void DesneyPBR::Draw(void)
 
     GetDeviceContext()->PSSetShader(PixelShader, NULL, 0);
 
-    ID3D11ShaderResourceView* tex = GetTexture(TexID);
-    GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
+    ID3D11ShaderResourceView* tex = GetTexture(TexIDRoughness);
+    GetDeviceContext()->PSSetShaderResources(1, 1, &tex);
+	tex = GetTexture(TexIDMetalness);
+	GetDeviceContext()->PSSetShaderResources(2, 1, &tex);
 
     XMMATRIX TranslationMatrix =
         XMMatrixTranslation(

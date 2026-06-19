@@ -4,13 +4,14 @@
 #include "renderer.h"
 #include "model.h"
 
-class DesneyPBR
+class DisnayPBR
 {
 protected:
     XMFLOAT3 Position;
     XMFLOAT3 Scale;
     XMFLOAT3 Rotate;
-    int      TexID;
+    int      TexIDRoughness;
+    int      TexIDMetalness;
 
     ID3D11VertexShader* VertexShader;
     ID3D11PixelShader* PixelShader;

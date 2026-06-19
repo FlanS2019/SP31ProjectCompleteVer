@@ -25,7 +25,7 @@
 
 #include "BumpField.h"
 #include "CookTorrance.h"
-#include "DesneyPBR.h"
+#include "DisnayPBR.h"
 //===============================================
 //グローバル変数
  
@@ -40,7 +40,7 @@ LimLighting	LLModel;
 BumpField	BumpField;
 SpotLight	SLModel;
 CookTorrance	CTModel;
-DesneyPBR	DPModel;
+DisnayPBR	DPModel;
 
 //Cube cube;
 //VertexDirectionalLighting	VDLModel;
@@ -93,14 +93,14 @@ void InitGame()
 	
 	//// ライト構造体の初期化
 	//XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f);
-	//dir = XMVector3Normalize(dir);
 	//XMStoreFloat4(&Light.Direction, dir); // 光のベクトル
 	//Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f); // 光の位置
 	//Light.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f); // 光の色
-	//Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 0.1f); // 環境光
-	//Light.PointLightParam = XMFLOAT4(10.0f, 1.0f, 0.0f, 0.0f); // 距離減衰のパラメータ
-	//Light.Angle.x = XMConvertToRadians(30.0f); // コーンの角度
+	//Light.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f); // 環境光
+	//Light.PointLightParam = XMFLOAT4(2000.0f, 1.5f, 0.0f, 0.0f); // 距離減衰のパラメータ
 
+	//Light.Angle.x = XMConvertToRadians(30.0f); // コーンの角度
+	//dir = XMVector3Normalize(dir);
 	//dir = XMVector4Normalize(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
 	//XMStoreFloat4(&Light.GroundNormal, dir);
 
