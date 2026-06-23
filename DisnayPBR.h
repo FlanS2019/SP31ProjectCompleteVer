@@ -27,6 +27,4 @@ public:
     void Finalize(void);
     void Update(void);
     void Draw(void);
-
-
 };

@@ -37,7 +37,7 @@ PolygonModel	Model;
 HemiSpherLight	HSLModel;
 PointPixelLighting	PPLModel;
 LimLighting	LLModel;
-BumpField	BumpField;
+BumpField	BField;
 SpotLight	SLModel;
 CookTorrance	CTModel;
 DisnayPBR	DPModel;
@@ -77,7 +77,7 @@ void InitGame()
 	test2D.Init();
 
 	
-	BumpField.Init();
+	BField.Init();
 	CTModel.Init();
 	DPModel.Init();
 	//Field.Init();
@@ -115,7 +115,7 @@ void FinalizeGame()
 {
 	FinalizeCamera();
 	test2D.Finalize();
-	BumpField.Finalize();
+	BField.Finalize();
 	CTModel.Finalize();
 	DPModel.Finalize();
 	//Field.Finalize();
@@ -141,7 +141,7 @@ void UpdateGame()
 	{
 		UpdateCamera();
 		test2D.Update();
-		BumpField.Update();
+		BField.Update();
 		CTModel.Update();
 		DPModel.Update();
 		//Field.Update();
@@ -198,7 +198,7 @@ void DrawGame()
 
 	//3D用マトリクス設定//個別ライト表示
 	{
-		BumpField.Draw();
+		BField.Draw();
 		CTModel.Draw();
 		DPModel.Draw();
 		//LLModel.Draw();

@@ -10,6 +10,9 @@ HRESULT DisnayPBR::Init(void)
     CreateVertexShader(&VertexShader, &VertexLayout, "DesneyPBRVS.cso");
     CreatePixelShader(&PixelShader, "DesneyPBRPS.cso");
 
+    TexIDRoughness = TextureLoad(L"asset\\texture\\Roughness.png");
+    TexIDMetalness = TextureLoad(L"asset\\texture\\Metalness.png");
+
     Position = XMFLOAT3(0.0f, 0.5f, 0.0f);
     Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
@@ -24,16 +27,16 @@ HRESULT DisnayPBR::Init(void)
     Light.PointLightParam = XMFLOAT4(2000.0f, 1.0f, 0.0f, 0.0f); // 距離減衰のパラメータ
     Light.Angle.x = XMConvertToRadians(20.0f); // コーンの角度
 
+    Model = ModelLoad("asset\\model\\model.fbx");
+
+	//XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f);
+	//dir = XMVector3Normalize(dir);
+	//XMStoreFloat4(&Light.Direction, dir); // 光のベクトル
+
 	Parameter = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 	Parameter.x = 0.5f; // Roughness
 	Parameter.y = 0.8f; // Metallic
 	Parameter.z = 3.0f; // AO
-
-    Model = ModelLoad("asset\\model\\model.fbx");
-
-    TexIDRoughness = TextureLoad(L"asset\\texture\\Roughness.png");
-    TexIDMetalness = TextureLoad(L"asset\\texture\\Metalness.png");
-
 
     return S_OK;
 }
@@ -73,12 +76,11 @@ void DisnayPBR::Update(void)
     {
         Rotate.x -= 60.0f * (1.0f / 60.0f);
     }
-	ImGui::SetNextWindowSize(ImVec2(300, 500), ImGuiCond_FirstUseEver);
-	ImGui::Begin("Desney PBR");
-    {
-		ImGui::SliderFloat("Light", &Parameter.z, 1.0f, 15.0f, "%.0f");
-    }
-	ImGui::End();
+	//ImGui::Begin("Disney PBR");
+ //   {
+	//	ImGui::SliderFloat("Light", &Parameter.z, 1.0f, 15.0f, "%.0f");
+ //   }
+	//ImGui::End();
 }
 
 void DisnayPBR::Draw(void)
