@@ -26,6 +26,8 @@
 #include "BumpField.h"
 #include "CookTorrance.h"
 #include "DisnayPBR.h"
+
+#include "Toon1.h"
 //===============================================
 //グローバル変数
  
@@ -41,6 +43,7 @@ BumpField	BField;
 SpotLight	SLModel;
 CookTorrance	CTModel;
 DisnayPBR	DPModel;
+Toon1 T1Model;
 
 //Cube cube;
 //VertexDirectionalLighting	VDLModel;
@@ -76,10 +79,10 @@ void InitGame()
 
 	test2D.Init();
 
-	
+	T1Model.Init();
 	BField.Init();
-	CTModel.Init();
-	DPModel.Init();
+	//CTModel.Init();
+	//DPModel.Init();
 	//Field.Init();
 	//Model.Init();
 	//LLModel.Init();
@@ -115,11 +118,12 @@ void FinalizeGame()
 {
 	FinalizeCamera();
 	test2D.Finalize();
+	T1Model.Finalize();
 	BField.Finalize();
-	CTModel.Finalize();
-	DPModel.Finalize();
+	//CTModel.Finalize();
+	//DPModel.Finalize();
 	//Field.Finalize();
-	////Model.Finalize();
+	//Model.Finalize();
 	//LLModel.Finalize();
 
 	//PPLModel.Finalize();
@@ -141,12 +145,13 @@ void UpdateGame()
 	{
 		UpdateCamera();
 		test2D.Update();
+		T1Model.Update();
 		BField.Update();
-		CTModel.Update();
-		DPModel.Update();
+		//CTModel.Update();
+		//DPModel.Update();
 		//Field.Update();
 		//Model.Update();
-		////LLModel.Update();
+		//LLModel.Update();
 		//PPLModel.Update();
 		//SLModel.Update();
 		//VDLModel.Update();
@@ -198,9 +203,10 @@ void DrawGame()
 
 	//3D用マトリクス設定//個別ライト表示
 	{
+		T1Model.Draw();
 		BField.Draw();
-		CTModel.Draw();
-		DPModel.Draw();
+		//CTModel.Draw();
+		//DPModel.Draw();
 		//LLModel.Draw();
 		////Model.Draw();
 		//PPLModel.Draw();
