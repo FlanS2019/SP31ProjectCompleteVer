@@ -2,124 +2,161 @@
 #include "CookTorranceSub.hlsl"
 
 Texture2D g_Texture : register(t0);
-Texture2D g_TextureRoughness : register(t1);
-Texture2D g_TextureMetalness : register(t2);
 
 SamplerState g_SamplerState : register(s0);
 
-float CalculateDiffuseFromFresnel(float3 N, float3 L, float3 V);
-float CalculateCookTorranceSpecular(float3 L, float3 V,
-                                    float3 N, float smooth,
-                                    float metallic);
+float CalculateDiffuseFromFresnel(
+    float3 N,
+    float3 L,
+    float3 V);
+
+float CalculateCookTorranceSpecular(
+    float3 L,
+    float3 V,
+    float3 N,
+    float smooth,
+    float metallic);
 
 static const float PI = 3.1415926f;
 
-void main(in PS_IN In, out float4 outDiffuse : SV_Target)
+void main(
+    in PS_IN In,
+    out float4 outDiffuse : SV_Target)
 {
-    // 法線を計算
-    float4 normal = normalize(In.Normal);
+    //-----------------------
+    // 法線
+    //-----------------------
 
-    // 各種マップをサンプリングする
-    // アルベドカラー
-    float4 albedoColor = g_Texture.Sample(
-        g_SamplerState,
-        In.TexCoord);
+    float3 normal =
+        normalize(In.Normal.xyz);
 
-    // スペキュラカラーはアルベドカラーと同じ
-    float3 specColor = albedoColor.rgb;
+    //-----------------------
+    // モデルの色
+    //-----------------------
 
-    // 滑らかさを取得
+    float4 albedoColor =
+        g_Texture.Sample(
+            g_SamplerState,
+            In.TexCoord);
+
+    //-----------------------
+    // ImGui値
+    //-----------------------
+
     float smooth =
-        g_TextureRoughness.Sample(
-        g_SamplerState,
-        In.TexCoord).r * 2.0f - 1.0f;
+        saturate(Parameter.x);
 
-    // smooth = Parameter.x; //これは無くてもよい
-
-    smooth = saturate(smooth);
-
-    // 金属度を取得
     float metallic =
-        g_TextureMetalness.Sample(
-        g_SamplerState,
-        In.TexCoord).r * 2.0f - 1.0f;
+        saturate(Parameter.y);
 
-    // metallic = Parameter.y; //これは無くてもよい
+    //-----------------------
+    // カメラ方向
+    //-----------------------
 
-    metallic = saturate(metallic);
-
-    // カメラへのベクトル
     float3 eyev =
-        CameraPosition.xyz -
-        In.WorldPosition.xyz;
+        normalize(
+            CameraPosition.xyz -
+            In.WorldPosition.xyz);
 
-    eyev = normalize(eyev);
-
-    // ライトマシマシ
     float3 lit = 0;
 
-    for (int ligNo = 0; ligNo < 1; ligNo++)
-    {
-        // 光源へのベクトル
-        float4 lv =
-            Light.Position -
-            In.WorldPosition;
+    //-----------------------
+    // ライト方向
+    //-----------------------
 
-        // フレネル反射を考慮した拡散反射
-        float diffuseFromFresnel =
-            CalculateDiffuseFromFresnel(
-                normal.xyz,
-                lv.xyz,
-                eyev);
+    float3 lv =
+        normalize(
+            Light.Position.xyz -
+            In.WorldPosition.xyz);
 
-        // Lambert
-        float nl =
-            saturate(dot(
-                normal.xyz,
-                lv.xyz));
+    //-----------------------
+    // Lambert
+    //-----------------------
 
-        float3 light =
-            nl + Light.Diffuse.rgb / PI;
+    float nl =
+        saturate(
+            dot(
+                normal,
+                lv));
 
-        // 拡散反射
-        float3 diffuse =
-            albedoColor.rgb *
-            diffuseFromFresnel *
-            Light.Diffuse.rgb *
-            light;
+    //-----------------------
+    // Fresnel拡散
+    //-----------------------
 
-        // 鏡面反射
-        float3 spec =
-            CalculateCookTorranceSpecular(
-                lv.xyz,
-                eyev,
-                normal.xyz,
-                smooth,
-                metallic)
-            * Light.Diffuse.rgb;
+    float diffuseFromFresnel =
+        CalculateDiffuseFromFresnel(
+            normal,
+            lv,
+            eyev);
 
-        // 金属度で補間
-        spec *= lerp(
-            float3(1.0f, 1.0f, 1.0f),
-            specColor,
+    //-----------------------
+    // 拡散反射
+    //-----------------------
+
+    float3 diffuse =
+        albedoColor.rgb *
+        diffuseFromFresnel *
+        Light.Diffuse.rgb *
+        nl;
+
+    //-----------------------
+    // 鏡面反射
+    //-----------------------
+
+    float3 spec =
+        CalculateCookTorranceSpecular(
+            lv,
+            eyev,
+            normal,
+            smooth,
             metallic);
 
-        // 滑らかさで拡散反射を調整
-        lit += diffuse *
-               (1.0f - smooth)
-               + spec;
-    }
+    spec *= Light.Diffuse.rgb;
 
+    //-----------------------
+    // Metallic補間
+    //-----------------------
+
+    spec *= lerp(
+        float3(
+            1.0f,
+            1.0f,
+            1.0f),
+
+        albedoColor.rgb,
+
+        metallic);
+
+    //-----------------------
+    // 合成
+    //-----------------------
+
+    lit =
+        diffuse *
+        (1.0f - smooth)
+
+        +
+
+        spec;
+
+    //-----------------------
     // 環境光
-    lit += Light.Ambient.rgb *
-           albedoColor.rgb;
+    //-----------------------
 
+    lit +=
+        Light.Ambient.rgb *
+        albedoColor.rgb;
+
+    //-----------------------
     // 出力
-    outDiffuse.rgb = lit;
-    outDiffuse.a =
-        albedoColor.a *
-        In.Diffuse.a;
+    //-----------------------
+
+    outDiffuse =
+        float4(
+            lit,
+            albedoColor.a);
 }
+
 
 float CalculateCookTorranceSpecular(
     float3 L,
@@ -128,29 +165,46 @@ float CalculateCookTorranceSpecular(
     float smooth,
     float metallic)
 {
-    // ライト方向と視線方向のハーフベクトル
-    float3 H = normalize(L + V);
+    float3 H =
+        normalize(L + V);
 
-    // 各ベクトルがどれくらい似ているかを内積で求める
-    float nh = saturate(dot(N, H));
-    float vh = saturate(dot(V, H));
-    float nl = saturate(dot(N, L));
-    float nv = saturate(dot(N, V));
+    float nh =
+        saturate(dot(N, H));
 
-    // D項をベックマン分布を用いて計算
-    float D = CalculateBeckmann(smooth, nh);
+    float vh =
+        saturate(dot(V, H));
 
-    // F項をSchlick近似を用いて計算
-    float F = CalculateFresnel(metallic, vh);
+    float nl =
+        saturate(dot(N, L));
 
-    // G項を求める
-    float G = CalculateGeometricDamping(nh, nv, nl, vh);
+    float nv =
+        saturate(dot(N, V));
 
-    // m項を求める
-    float m = PI * nv * nh;
+    float D =
+        CalculateBeckmann(
+            smooth,
+            nh);
 
-    // Cook-Torranceモデルの鏡面反射
-    return max(F * D * G / m, 0.0f);
+    float F =
+        CalculateFresnel(
+            metallic,
+            vh);
+
+    float G =
+        CalculateGeometricDamping(
+            nh,
+            nv,
+            nl,
+            vh);
+
+    float m =
+        PI *
+        nv *
+        nh;
+
+    return max(
+        F * D * G / m,
+        0.0f);
 }
 
 float CalculateDiffuseFromFresnel(
@@ -158,12 +212,11 @@ float CalculateDiffuseFromFresnel(
     float3 L,
     float3 V)
 {
-    // 法線と光源に向かうベクトルがどれだけ似ているかを内積で求める
-    float nl = saturate(dot(N, L));
+    float nl =
+        saturate(dot(N, L));
 
-    // 法線と視線に向かうベクトルがどれだけ似ているかを内積で求める
-    float nv = saturate(dot(N, V));
+    float nv =
+        saturate(dot(N, V));
 
-    // 法線と光源への方向に依存する拡散反射率
-    return (nl * nv);
+    return nl * nv;
 }

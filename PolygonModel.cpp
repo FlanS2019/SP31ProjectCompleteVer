@@ -39,9 +39,9 @@ HRESULT PolygonModel::Init(void)
 	CreatePixelShader(&PixelShader, "PointPixelLightingPS.cso");
 
 	//3Dオブジェクト管理構造体の初期化
-	Position = XMFLOAT3(0.0f, 0.2f, 0.5f);
-	Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	Scale = XMFLOAT3(1.2f, 1.2f, 1.2f);
+	Position = XMFLOAT3(0.0f, 5.0f, 10.0f);
+	Scale = XMFLOAT3(0.05f, 0.05f, 0.05f);
+	Rotate = XMFLOAT3(-90.0f, 0.0f, 0.0f);
 
 	//モデル読み込み
 	Model = ModelLoad("asset\\model\\cube.fbx");
@@ -112,9 +112,9 @@ void PolygonModel::Draw(void)
 
 
 	{//3Dポリゴン１つずつの処理
-		//テクスチャをセット
-		ID3D11ShaderResourceView* tex = GetTexture(TexID);
-		GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
+		////テクスチャをセット
+		//ID3D11ShaderResourceView* tex = GetTexture(TexID);
+		//GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 
 		//平行移動行列作成
 		XMMATRIX	TranslationMatrix =
