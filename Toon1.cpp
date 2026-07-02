@@ -1,17 +1,18 @@
 /*==============================================================================
 
 [VertexDirectionalLighting.cpp]
-														 Author :
-														 Date   :
+                                                         Author :
+                                                         Date   :
 --------------------------------------------------------------------------------
 
 ==============================================================================*/
-#include "LimLighting.h"
+#include "Toon1.h"
 #include "sprite.h"
 #include "Camera.h"
 #include "texture.h"
 #include "model.h"
 #include "keyboard.h"
+#include <windows.h> // OutputDebugString 用
 
 //*****************************************************************************
 // マクロ定義
@@ -31,24 +32,21 @@
 //=============================================================================
 // 初期化処理
 //=============================================================================
-HRESULT LimLighting::Init(void)
+HRESULT Toon1::Init(void)
 {
 	//シェーダー読み込み
-	CreateVertexShader(&VertexShader, &VertexLayout, "LimLightingVS.cso");//描画がなんかおかしかったような気がするから一時的にこれ使う
-	CreatePixelShader(&PixelShader, "LimLightingPS.cso");//これも一時的にこれ使うｗ
-	//CreateVertexShader(&VertexShader, &VertexLayout, "PointPixelLightingVS.cso");//描画がなんかおかしかったような気がするから一時的にこれ使う
-	//CreatePixelShader(&PixelShader, "PointPixelLightingPS.cso");//これも一時的にこれ使うｗ
-	
-	//3Dオブジェクト管理構造体の初期化
-	Position = XMFLOAT3(-0.7f, 0.5f, 0.0f);
-	Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
+	CreateVertexShader(&VertexShader, &VertexLayout, "Toon1VS.cso");
+	CreatePixelShader(&PixelShader, "Toon1PS.cso");
 
 	Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
 	Light.Diffuse = XMFLOAT4(0.9f, 0.9f, 0.9f, 1.0f);
 	Light.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
-	Light.PointLightParam = XMFLOAT4(3.0f, 6.0f, 0.0f, 0.0f);
+	Light.PointLightParam = XMFLOAT4(3.0f, 0.0f, 0.0f, 0.0f);
 
+	//3Dオブジェクト管理構造体の初期化
+	Position = XMFLOAT3(-0.6f, 0.2f, 0.0f);
+	Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
 
 	//モデル読み込み
 	Model = ModelLoad("asset\\model\\model.fbx");
@@ -58,8 +56,15 @@ HRESULT LimLighting::Init(void)
 	XMVECTOR	dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
 	dir = XMVector3Normalize(dir);
 	XMStoreFloat4(&Light.Direction, dir);//光のベクトル
+
+	Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);//光の位置
 	Light.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);//光の色
 	Light.Ambient = XMFLOAT4(0.5f, 0.3f, 0.3f, 1.0f);//環境光の色
+	Light.PointLightParam = XMFLOAT4(3.0f, 0.0f, 0.0f, 0.0f);//点光源のパラメータ（xに減衰係数）
+
+	Parameter = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
+	Parameter.x = 0.5f; // Rim Exponent
+	Parameter.y = 0.5f; // Rim Intensity
 
 	return S_OK;
 }
@@ -67,7 +72,7 @@ HRESULT LimLighting::Init(void)
 //=============================================================================
 // 終了処理
 //=============================================================================
-void LimLighting::Finalize(void)
+void Toon1::Finalize(void)
 {
 	//作ったものを解放
 
@@ -83,8 +88,16 @@ void LimLighting::Finalize(void)
 //=============================================================================
 // 更新処理
 //=============================================================================
-void LimLighting::Update(void)
+void Toon1::Update(void)
 {
+	// デバッグ出力: Update が呼ばれているか確認する
+	OutputDebugStringA("Toon1::Update() called\n");
+	{
+		char buf[128];
+		snprintf(buf, sizeof(buf), "Light.Position = %.3f, %.3f, %.3f\n", Light.Position.x, Light.Position.y, Light.Position.z);
+		OutputDebugStringA(buf);
+	}
+
 	if (Keyboard_IsKeyDown(KK_UP))
 	{
 		Position.z += 0.3f * (1.0f / 60.0f);
@@ -110,31 +123,40 @@ void LimLighting::Update(void)
 		Rotate.x -= 60.0f * (1.0f / 60.0f);
 	}
 
-	// //必要ならファイル先頭に #include "imgui.h" を追加してください
-	//ImGui::Begin("LimLighting");
+	ImGui::Begin("Toon1");
+	{
+		ImGui::SliderFloat("Level-1", &Parameter.x, 0.0f, 1.0f, "%.2f");
+		ImGui::SliderFloat("Level-2", &Parameter.y, 0.0f, 1.0f, "%.2f");
+		ImGui::SliderFloat("Edge", &Parameter.z, 0.0f, 1.0f, "%.2f");
+	}
+	ImGui::End();
+
+	//// Begin の戻り値をチェックする形式に変更（描画可否の確認）
+	//if (ImGui::Begin("Toon1"))
 	//{
-	//	// PointLightParam.x: 範囲（視認用）、PointLightParam.y: リムの鋭さ（exponent）
-	//	ImGui::SliderFloat("PointLightParam.x (range)", &Light.PointLightParam.x, 0.5f, 10.0f, "%.2f");
-	//	ImGui::SliderFloat("Rim Exponent (PointLightParam.y)", &Light.PointLightParam.y, 0.1f, 20.0f, "%.2f");
+	//	ImGui::Text("Debug ImGui active"); // シンプル表示でウィンドウの有無を確かめる
+	//	ImGui::SliderFloat("PointLightParam.x",
+	//		&Light.PointLightParam.x, 0.5f, 5.0f, "%.2f");
 
-	//	// ライト位置を操作（float4 の先頭アドレスを渡す）
-	//	ImGui::SliderFloat3("Light.Position", (float*)&Light.Position, -5.0f, 5.0f);
-
-	//	// デバッグ表示
+	//	ImGui::SliderFloat("Position.x",
+	//		&Light.Position.x, -2.0f, 2.0f, "%.2f");
+	//	ImGui::SliderFloat("Position.y",
+	//		&Light.Position.y, -2.0f, 2.0f, "%.2f");
+	//	ImGui::SliderFloat("Position.z",
+	//		&Light.Position.z, -2.0f, 2.0f, "%.2f");
+	//	// デバッグ表示: スライダーで変化しているかを可視化
 	//	ImGui::Separator();
-	//	ImGui::Text("Light.PointLightParam = %.3f, %.3f", Light.PointLightParam.x, Light.PointLightParam.y);
+	//	ImGui::Text("Light.PointLightParam.x = %.3f", Light.PointLightParam.x);
 	//	ImGui::Text("Light.Position = %.3f, %.3f, %.3f", Light.Position.x, Light.Position.y, Light.Position.z);
 	//}
 	//ImGui::End();
 
-	//// 安全策：指数は 0 にならないようにクランプ
-	//if (Light.PointLightParam.y < 0.0001f) Light.PointLightParam.y = 0.0001f;
 }
 
 //=============================================================================
 // 描画処理
 //=============================================================================
-void LimLighting::Draw(void)
+void Toon1::Draw(void)
 {
 	// 頂点レイアウト設定
 	GetDeviceContext()->IASetInputLayout(VertexLayout);
@@ -144,19 +166,17 @@ void LimLighting::Draw(void)
 	GetDeviceContext()->PSSetShader(PixelShader, NULL, 0);
 
 	SetLight(Light);
-	SetLight(Light);
 
 	//SPOTLIGHT sl;
 	//ZeroMemory(&sl, sizeof(sl));
 	//sl.Diffuse = XMFLOAT4(1.0f, 0.9f, 0.7f, 1.0f);
 	//sl.Ambient = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
 	//sl.Position = XMFLOAT4(0.0f, 1.5f, 0.0f, 1.0f); // ライト位置
-	//sl.Direction = XMFLOAT4(0.0f, -3.0f, 0.0f, 0.0f); // 下向き
-	//sl.ConeAngle = 35.0f;
-	//sl.Attenuation = 0.1f;
-	//sl.Pow = 5.0f;
+	//sl.Direction = XMFLOAT4(0.0f, -1.0f, 0.0f, 0.0f); // 下向き
+	//sl.ConeAngle = 25.0f;
+	//sl.Attenuation = 0.3f;
+	//sl.Pow = 9.5f;
 	//SetSpotLight(sl);
-
 
 	{//3Dポリゴン１つずつの処理
 		//テクスチャをセット
@@ -208,4 +228,3 @@ void LimLighting::Draw(void)
 
 
 }
-
