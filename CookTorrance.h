@@ -3,8 +3,9 @@
 #include "main.h"
 #include "renderer.h"
 #include "model.h"
+#include "IGameObject3D.h"
 
-class CookTorrance
+class CookTorrance : public IGameObject3D
 {
 protected:
     XMFLOAT3 Position;

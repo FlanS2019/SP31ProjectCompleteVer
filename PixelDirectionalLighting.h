@@ -12,6 +12,7 @@
 #include "main.h"
 #include "renderer.h"
 #include "model.h"
+#include "IGameObject3D.h"
 
 //*****************************************************************************
 // É}ÉNÉçíËã`
@@ -23,7 +24,7 @@
 ////////////////
 
 
-class PixelDirectionalLighting
+class PixelDirectionalLighting : public IGameObject3D
 {
 	protected:
 		XMFLOAT3	Position;

@@ -137,9 +137,6 @@
     <ClCompile Include="BumpField.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CookTorrance.cpp" />
-    <ClCompile Include="cube.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="DisnayPBR.cpp" />
     <ClCompile Include="Field3D.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -171,15 +168,13 @@
     <ClInclude Include="BumpField.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CookTorrance.h" />
-    <ClInclude Include="cube.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="debugPrintf.h" />
     <ClInclude Include="DisnayPBR.h" />
     <ClInclude Include="DirectXTex.h" />
     <ClInclude Include="Field3D.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HemiSpherLight.h" />
+    <ClInclude Include="IGameObject3D.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_dx11.h" />

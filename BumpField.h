@@ -2,12 +2,13 @@
 
 #include "main.h"
 #include "renderer.h"
+#include "IGameObject3D.h"
 
 ////////////////////
 // ç\ë¢ëÃ
 ////////////////////
 
-class BumpField
+class BumpField : public IGameObject3D
 {
 protected:
     XMFLOAT3 Position;
@@ -25,9 +26,9 @@ protected:
     LIGHT Light;
 
 public:
-    HRESULT Init(void);
-    void Finalize(void);
-    void Update(void);
-    void Draw(void);
+    HRESULT Init(void)override;
+    void Finalize(void)override;
+    void Update(void)override;
+    void Draw(void)override;
 };
 

@@ -3,11 +3,11 @@
 #include "main.h"
 #include "renderer.h"
 #include "model.h"
-
+#include "IGameObject3D.h"
 //////////////////
 // ç\ë¢ëÃ/ÉNÉâÉX
 //////////////////
-class HemiSpherLight
+class HemiSpherLight : public IGameObject3D
 {
 protected:
     XMFLOAT3 Position;

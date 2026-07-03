@@ -3,8 +3,9 @@
 #include "main.h"
 #include "renderer.h"
 #include "model.h"
+#include "IGameObject3D.h"
 
-class DisnayPBR
+class DisnayPBR : public IGameObject3D
 {
 protected:
     XMFLOAT3 Position;

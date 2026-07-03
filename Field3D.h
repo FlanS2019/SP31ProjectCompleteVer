@@ -11,7 +11,7 @@
 
 #include "main.h"
 #include "renderer.h"
-
+#include "IGameObject3D.h"
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
@@ -21,7 +21,7 @@
 //構造体
 ////////////////
 
-class Field3D
+class Field3D : public IGameObject3D
 {
 	protected:
 		XMFLOAT3	Position;
