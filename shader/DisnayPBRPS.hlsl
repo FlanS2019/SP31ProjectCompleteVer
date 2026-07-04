@@ -34,7 +34,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
         g_SamplerState,
         In.TexCoord).r * 2.0f - 1.0f;
 
-    // smooth = Parameter.x; //‚±‚ê‚Í–³‚­‚Ä‚à‚æ‚¢
+    smooth = Parameter.x; //‚±‚ê‚Í–³‚­‚Ä‚à‚æ‚¢
 
     smooth = saturate(smooth);
 
@@ -44,7 +44,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
         g_SamplerState,
         In.TexCoord).r * 2.0f - 1.0f;
 
-    // metallic = Parameter.y; //‚±‚ê‚Í–³‚­‚Ä‚à‚æ‚¢
+    metallic = Parameter.y; //‚±‚ê‚Í–³‚­‚Ä‚à‚æ‚¢
 
     metallic = saturate(metallic);
 
@@ -83,11 +83,11 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 
         // ŠgU”½Ë
         float3 diffuse =
-            albedoColor.rgb *
-            diffuseFromFresnel *
-            Light.Diffuse.rgb *
-            light;
-
+        albedoColor.rgb *
+        diffuseFromFresnel *
+        nl *
+        Light.Diffuse.rgb / PI;
+        
         // ‹¾–Ê”½Ë
         float3 spec =
             CalculateCookTorranceSpecular(
@@ -106,7 +106,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 
         // ŠŠ‚ç‚©‚³‚ÅŠgU”½Ë‚ğ’²®
         lit += diffuse *
-               (1.0f - smooth)
+               (1.0f - metallic)
                + spec;
     }
 
@@ -147,8 +147,9 @@ float CalculateCookTorranceSpecular(
     float G = CalculateGeometricDamping(nh, nv, nl, vh);
 
     // m€‚ğ‹‚ß‚é
-    float m = PI * nv * nh;
-
+    float m = 4.0f * nl * nv;
+    
+    
     // Cook-Torranceƒ‚ƒfƒ‹‚Ì‹¾–Ê”½Ë
     return max(F * D * G / m, 0.0f);
 }

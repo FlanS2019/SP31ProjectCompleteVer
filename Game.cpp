@@ -86,6 +86,13 @@ void InitGame()
 	//PLBPModel.Init();
 	//cube.Init();
 	//HSLModel.Init();
+
+	XMVECTOR    dir = XMVector4Normalize(XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f));
+	XMStoreFloat4(&Light.Direction, dir);
+	Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 0.0f);
+	Light.Diffuse = XMFLOAT4(0.9f, 0.9f, 0.9f, 1.0f);
+	Light.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);//è≠ÇµëÂÇ´ÇﬂÇ…
+	Light.PointLightParam = XMFLOAT4(2000.0f, 1.5f, 0.0f, 0.0f);//å∏êäó¶
 }
 
 void FinalizeGame()

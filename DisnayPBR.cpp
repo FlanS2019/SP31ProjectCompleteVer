@@ -74,9 +74,12 @@ void DisnayPBR::Update(void)
         Rotate.x -= 60.0f * (1.0f / 60.0f);
     }
 	ImGui::SetNextWindowSize(ImVec2(300, 500), ImGuiCond_FirstUseEver);
-	ImGui::Begin("Desney PBR");
+	ImGui::Begin("DisnayPBR");
     {
 		ImGui::SliderFloat("Light", &Parameter.z, 1.0f, 15.0f, "%.0f");
+        ImGui::SliderFloat("Metallic", &Parameter.y, 0.0f, 1.0f);
+        ImGui::SliderFloat("AO", &Parameter.z, 1.0f, 15.0f, "%.0f");
+
     }
 	ImGui::End();
 }
