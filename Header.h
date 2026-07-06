@@ -22,4 +22,5 @@
 #include "CookTorrance.h"
 #include "DisnayPBR.h"
 #include "SkyBall.h"
+#include "cube.h"
 #include "IGameObject3D.h"

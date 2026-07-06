@@ -61,15 +61,14 @@ void InitGame()
 	wall2->Position = XMFLOAT3(-FIELD_SIZE / 2.5f, 0.0f, 0.0f); // ¶‘¤‚Ì•Ç
 	wall2->Rotate = XMFLOAT3(0.0f, -90.0f, 0.0f); // 90“x‰ñ“]‚µ‚Ä‰¡Œü‚«‚É
 
-	//Model.Init();
-	//LLModel.Init();
-	//PPLModel.Init();
-	//SLModel.Init();
-	//VDLModel.Init();
-	//PDLModel.Init();
-	//PLBPModel.Init();
-	//cube.Init();
-	//HSLModel.Init();
+	AddModel3D<LimLighting>();
+	AddModel3D<PointPixelLighting>();
+	AddModel3D<SpotLight>();
+	AddModel3D<VertexDirectionalLighting>();
+	AddModel3D<PixelDirectionalLighting>();
+	AddModel3D<PixelLightingBlinPhong>();
+	AddModel3D<HemiSpherLight>();
+	AddModel3D<TexCube>();
 
 	XMVECTOR    dir = XMVector4Normalize(XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f));
 	XMStoreFloat4(&Light.Direction, dir);

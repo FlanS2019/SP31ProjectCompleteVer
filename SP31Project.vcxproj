@@ -137,6 +137,7 @@
     <ClCompile Include="BumpField.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CookTorrance.cpp" />
+    <ClCompile Include="cube.cpp" />
     <ClCompile Include="DisnayPBR.cpp" />
     <ClCompile Include="Wall3D.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="BumpField.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CookTorrance.h" />
+    <ClInclude Include="cube.h" />
     <ClInclude Include="debugPrintf.h" />
     <ClInclude Include="DisnayPBR.h" />
     <ClInclude Include="DirectXTex.h" />
