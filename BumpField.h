@@ -1,8 +1,6 @@
 #pragma once
 
-#include "main.h"
-#include "renderer.h"
-#include "IGameObject3D.h"
+#include "Header.h"
 
 ////////////////////
 // ç\ë¢ëÃ

@@ -1,32 +1,7 @@
-#include "Main.h"
-#include "Renderer.h"
-#include "Manager.h"
-#include "Sprite.h"
-#include "Game.h"
-#include "keyboard.h"
-#include "Camera.h"
-#include "texture.h"
+#include "Header.h"
 
-#include	"Sprite2D.h"
+#define FIELD_SIZE (5)
 
-#include	"Field3D.h"
-#include	"PolygonModel.h"
-#include	"VertexDirectionalLighting.h"
-#include	"PixelDirectionalLighting.h"
-
-#include "PixelLightingBlinPhong.h"
-#include "HemiSpherLight.h"
-
-#include	"PointPixelLighting.h"
-#include	"LimLighting.h"
-
-#include "SpotLight.h"
-
-#include "BumpField.h"
-#include "CookTorrance.h"
-#include "DisnayPBR.h"
-
-#include "IGameObject3D.h"
 //===============================================
 //グローバル変数
 
@@ -76,7 +51,16 @@ void InitGame()
 	AddModel3D<BumpField>();
 	AddModel3D<CookTorrance>();
 	AddModel3D<DisnayPBR>();	
-	//Field.Init();
+	AddModel3D<SkyBall>();
+
+	Wall3D* wall1 = AddModel3D<Wall3D>();
+	wall1->Position = XMFLOAT3(0.0f, 0.0f, FIELD_SIZE / 2.5f);
+	wall1->Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
+
+	Wall3D* wall2 = AddModel3D<Wall3D>();
+	wall2->Position = XMFLOAT3(-FIELD_SIZE / 2.5f, 0.0f, 0.0f); // 左側の壁
+	wall2->Rotate = XMFLOAT3(0.0f, -90.0f, 0.0f); // 90度回転して横向きに
+
 	//Model.Init();
 	//LLModel.Init();
 	//PPLModel.Init();

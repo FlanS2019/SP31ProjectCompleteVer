@@ -1,9 +1,5 @@
-#include "HemiSpherLight.h"
-#include "sprite.h"
-#include "Camera.h"
-#include "texture.h"
-#include "keyboard.h"
-
+#include "Header.h"
+#include "model.h"
 //Initialize
 
 HRESULT HemiSpherLight::Init(void)

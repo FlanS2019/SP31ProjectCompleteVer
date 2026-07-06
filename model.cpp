@@ -3,10 +3,10 @@
 
 
 //#include "directx.h"
-#include "texture.h"
+#include "Header.h"
 #include "model.h"
-
-#include "renderer.h"
+#include "assimp/cimport.h"
+#include <string>
 
 
 
@@ -105,12 +105,49 @@ MODEL* ModelLoad( const char *FileName )
 		model->Texture[aitexture->mFilename.data] = texture;
 	}
 
+	// マテリアルが参照する外部テクスチャの読み込み（.objなど埋め込み非対応形式向け）
+	std::string dir;
+	{
+		size_t pos = modelPath.find_last_of("\\/");
+		dir = (pos != std::string::npos) ? modelPath.substr(0, pos + 1) : "";
+	}
 
+	for (unsigned int mi = 0; mi < model->AiScene->mNumMaterials; mi++)
+	{
+		aiMaterial* aimaterial = model->AiScene->mMaterials[mi];
+		aiString path;
+
+		if (aimaterial->GetTexture(aiTextureType_DIFFUSE, 0, &path) == AI_SUCCESS)
+		{
+			std::string key = path.data;
+
+			// 既に読み込み済みなら（埋め込みテクスチャ等）スキップ
+			if (model->Texture.find(key) == model->Texture.end())
+			{
+				std::string fullPath = dir + key;
+
+				TexMetadata metadata;
+				ScratchImage image;
+				std::wstring wpath(fullPath.begin(), fullPath.end());
+
+				HRESULT hr = LoadFromWICFile(wpath.c_str(), WIC_FLAGS_NONE, &metadata, image);
+				if (SUCCEEDED(hr))
+				{
+					ID3D11ShaderResourceView* texture = nullptr;
+					CreateShaderResourceView(GetDevice(), image.GetImages(), image.GetImageCount(), metadata, &texture);
+					model->Texture[key] = texture;
+				}
+				else
+				{
+					// 読み込み失敗時はnullptrを入れずログだけ出す等
+					OutputDebugStringA(("Texture load failed: " + fullPath + "\n").c_str());
+				}
+			}
+		}
+	}
 
 	return model;
 }
-
-
 
 
 void ModelRelease(MODEL* model)
@@ -143,7 +180,6 @@ void ModelDraw(MODEL* model)
 	// プリミティブトポロジ設定
 	GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-
 	for (unsigned int m = 0; m < model->AiScene->mNumMeshes; m++)
 	{
 		aiMesh* mesh = model->AiScene->mMeshes[m];
@@ -154,7 +190,13 @@ void ModelDraw(MODEL* model)
 		aimaterial->GetTexture(aiTextureType_DIFFUSE, 0, &texture);
 
 		if (texture != aiString(""))
-			GetDeviceContext()->PSSetShaderResources(0, 1, &model->Texture[texture.data]);
+		{
+			auto it = model->Texture.find(texture.data);
+			if (it != model->Texture.end())
+			{
+				GetDeviceContext()->PSSetShaderResources(0, 1, &it->second);
+			}
+		}
 
 		// 頂点バッファ設定
 		UINT stride = sizeof(VERTEX_3D);
@@ -168,6 +210,3 @@ void ModelDraw(MODEL* model)
 		GetDeviceContext()->DrawIndexed(mesh->mNumFaces * 3, 0, 0);
 	}
 }
-
-
-

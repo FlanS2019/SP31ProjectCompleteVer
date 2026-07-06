@@ -6,12 +6,8 @@
 --------------------------------------------------------------------------------
 
 ==============================================================================*/
-#include "PointPixelLighting.h"
-#include "sprite.h"
-#include "Camera.h"
-#include "texture.h"
+#include "Header.h"
 #include "model.h"
-#include "keyboard.h"
 #include <windows.h> // OutputDebugString —p
 
 //*****************************************************************************

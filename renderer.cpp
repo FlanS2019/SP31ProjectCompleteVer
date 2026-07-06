@@ -47,6 +47,9 @@ XMMATRIX				g_ProjectionMatrix;
 ID3D11DepthStencilState* g_DepthStateEnable;
 ID3D11DepthStencilState* g_DepthStateDisable;
 
+ID3D11RasterizerState* g_DefaultRasterizerState = NULL;
+ID3D11SamplerState* g_DefaultSamplerState = NULL;
+
 ID3D11Device* GetDevice( void )
 {
 	return g_D3DDevice;
@@ -56,6 +59,15 @@ ID3D11Device* GetDevice( void )
 ID3D11DeviceContext* GetDeviceContext( void )
 {
 	return g_ImmediateContext;
+}
+
+ID3D11RasterizerState* GetDefaultRasterizerState(void)
+{
+	return g_DefaultRasterizerState;
+}
+ID3D11SamplerState* GetDefaultSamplerState(void)
+{
+	return g_DefaultSamplerState;
 }
 
 void SetDepthEnable( bool Enable )
@@ -226,10 +238,12 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	rd.DepthClipEnable = TRUE; 
 	rd.MultisampleEnable = FALSE; 
 
-	ID3D11RasterizerState *rs;
-	g_D3DDevice->CreateRasterizerState( &rd, &rs );
+	//ID3D11RasterizerState *rs;
+	//g_D3DDevice->CreateRasterizerState( &rd, &rs );
+	//g_ImmediateContext->RSSetState( rs );
 
-	g_ImmediateContext->RSSetState( rs );
+	g_D3DDevice->CreateRasterizerState(&rd, &g_DefaultRasterizerState);
+	g_ImmediateContext->RSSetState(g_DefaultRasterizerState);
 
 	// ブレンドステート設定
 	D3D11_BLEND_DESC blendDesc;
@@ -278,10 +292,13 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
 	samplerDesc.MinLOD = 0;
 	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
-	ID3D11SamplerState* samplerState = NULL;
-	g_D3DDevice->CreateSamplerState( &samplerDesc, &samplerState );
+
+	g_D3DDevice->CreateSamplerState(&samplerDesc, &g_DefaultSamplerState);
+	g_ImmediateContext->PSSetSamplers(0, 1, &g_DefaultSamplerState);
+	//ID3D11SamplerState* samplerState = NULL;
+	//g_D3DDevice->CreateSamplerState( &samplerDesc, &samplerState );
 	//サンプラーをシェーダーへセット
-	g_ImmediateContext->PSSetSamplers( 0, 1, &samplerState );
+	//g_ImmediateContext->PSSetSamplers( 0, 1, &samplerState );
 
 
 	//定数バッファ生成

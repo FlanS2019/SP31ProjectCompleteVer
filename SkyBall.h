@@ -1,9 +1,11 @@
 #pragma once
 #include <d3d11.h>
 #include <DirectXMath.h>
+#include "model.h"
+#include "IGameObject3D.h"
 using namespace DirectX;
 
-class SkyBall
+class SkyBall : public IGameObject3D
 {
 public:
     HRESULT Init(void);
@@ -16,7 +18,11 @@ private:
     ID3D11PixelShader* PixelShader = nullptr;
     ID3D11InputLayout* VertexLayout = nullptr;
 
-    int Model = -1; // ModelLoad‚Ì–ß‚è’l
+    ID3D11RasterizerState* RasterizerState = nullptr;
+
+    ID3D11SamplerState* SamplerState = nullptr;
+
+    MODEL* Model = nullptr; // ModelLoad‚Ì–ß‚è’l
     int TexIDSky = -1; // TextureLoad‚Ì–ß‚è’l
 
     XMFLOAT3 Position = XMFLOAT3(0.0f, 0.0f, 0.0f);

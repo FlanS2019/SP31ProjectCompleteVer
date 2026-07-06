@@ -80,9 +80,6 @@
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>ソース ファイル\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Field3D.cpp">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
-    </ClCompile>
     <ClCompile Include="PolygonModel.cpp">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
@@ -121,6 +118,9 @@
     </ClCompile>
     <ClCompile Include="SkyBall.cpp">
       <Filter>ソース ファイル\フレームワーク</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall3D.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -181,9 +181,6 @@
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>ソース ファイル\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Field3D.h">
-      <Filter>ソース ファイル\オブジェクトクラス</Filter>
-    </ClInclude>
     <ClInclude Include="PolygonModel.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
@@ -224,6 +221,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SkyBall.h">
+      <Filter>ソース ファイル\フレームワーク</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall3D.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Header.h">
       <Filter>ソース ファイル\フレームワーク</Filter>
     </ClInclude>
   </ItemGroup>

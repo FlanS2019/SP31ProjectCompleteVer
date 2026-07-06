@@ -1,16 +1,16 @@
 #include "common.hlsl"
 
-PS_IN main(VS_IN In)
+struct SKY_PS_IN
 {
-    PS_IN Out;
+    float4 Position : SV_POSITION;
+    float3 LocalDir : TEXCOORD0; // 球の中心からの方向（ローカル座標そのまま）
+};
 
-    // 位置変換（スカイボールなので視差を消すためカメラ位置基準）
-    float4 worldPos = mul(float4(In.Position, 1.0f), WorldMatrix);
-    Out.Position = mul(worldPos, mul(ViewMatrix, ProjectionMatrix));
-
-    Out.TexCoord = In.TexCoord;
-    Out.WorldPosition = worldPos;
-    Out.Normal = mul(In.Normal, (float3x3) WorldMatrix);
-
+SKY_PS_IN main(VS_IN In)
+{
+    SKY_PS_IN Out;
+    float4 worldPos = mul(In.Position, World);
+    Out.Position = mul(worldPos, mul(View, Projection));
+    Out.LocalDir = In.Position.xyz; // 球の中心(0,0,0)からの方向 = ローカル座標そのもの
     return Out;
 }

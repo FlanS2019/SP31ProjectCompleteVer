@@ -138,7 +138,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CookTorrance.cpp" />
     <ClCompile Include="DisnayPBR.cpp" />
-    <ClCompile Include="Field3D.cpp" />
+    <ClCompile Include="Wall3D.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HemiSpherLight.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -172,7 +172,8 @@
     <ClInclude Include="debugPrintf.h" />
     <ClInclude Include="DisnayPBR.h" />
     <ClInclude Include="DirectXTex.h" />
-    <ClInclude Include="Field3D.h" />
+    <ClInclude Include="Header.h" />
+    <ClInclude Include="Wall3D.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HemiSpherLight.h" />
     <ClInclude Include="IGameObject3D.h" />
@@ -323,8 +324,16 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).cso</ObjectFileOutput>
     </FxCompile>
-    <FxCompile Include="shader\SkyPS.hlsl" />
-    <FxCompile Include="shader\SkyVS.hlsl" />
+    <FxCompile Include="shader\SkyPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\SkyVS.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="shader\SpotLightPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>

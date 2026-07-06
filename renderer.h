@@ -77,6 +77,9 @@ void Present(void);
 ID3D11Device *GetDevice( void );
 ID3D11DeviceContext *GetDeviceContext( void );
 
+ID3D11RasterizerState* GetDefaultRasterizerState(void);
+ID3D11SamplerState* GetDefaultSamplerState(void);
+
 void SetDepthEnable( bool Enable );
 
 void SetWorldViewProjection2D(void);

@@ -1,16 +1,13 @@
 
 //Camera.cpp
 
-#include	"Camera.h"
-#include	"keyboard.h"
-
+#include "Header.h"
 Camera		g_Camera;	//カメラ管理構造体
-
 
 void	InitCamera()
 {
 	//カメラの初期化
-	g_Camera.Position = XMFLOAT3(0.0f, 1.5f, -2.0f);	//カメラ基本座標
+	g_Camera.Position = XMFLOAT3(0.0f, 1.5f, -2.5f);	//カメラ基本座標
 	g_Camera.UpVector = XMFLOAT3(0.0f, 1.0f, 0.0f);		//カメラの上方ベクトル
 	g_Camera.AtPosition = XMFLOAT3(0.0f, 0.0f, 0.0f);	//カメラの注視点座標
 	g_Camera.Fov = 45.0f;								//画角
@@ -37,6 +34,16 @@ void	UpdateCamera()
 	{
 		g_Camera.Rotation = -0.3f;
 	}
+
+	if(Keyboard_IsKeyDown(KK_W))
+	{
+		g_Camera.Position.y += 0.3f;
+	}
+	else if (Keyboard_IsKeyDown(KK_S))
+	{
+		g_Camera.Position.y -= 0.3f;
+	}
+
 
 	float co = cosf(XMConvertToRadians(g_Camera.Rotation));
 	float si = sinf(XMConvertToRadians(g_Camera.Rotation));
@@ -77,7 +84,3 @@ Camera* GetCamera()
 {
 	return &g_Camera;
 }
-
-
-
-
