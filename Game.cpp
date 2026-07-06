@@ -28,6 +28,7 @@
 #include "DisnayPBR.h"
 
 #include "Toon1.h"
+#include "Toon2.h"
 //===============================================
 //グローバル変数
  
@@ -44,6 +45,7 @@ SpotLight	SLModel;
 CookTorrance	CTModel;
 DisnayPBR	DPModel;
 Toon1 T1Model;
+Toon2 T2Model;
 
 //Cube cube;
 //VertexDirectionalLighting	VDLModel;
@@ -81,6 +83,7 @@ void InitGame()
 
 	T1Model.Init();
 	BField.Init();
+	T2Model.Init();
 	//CTModel.Init();
 	//DPModel.Init();
 	//Field.Init();
@@ -120,6 +123,7 @@ void FinalizeGame()
 	test2D.Finalize();
 	T1Model.Finalize();
 	BField.Finalize();
+	T2Model.Finalize();
 	//CTModel.Finalize();
 	//DPModel.Finalize();
 	//Field.Finalize();
@@ -147,6 +151,7 @@ void UpdateGame()
 		test2D.Update();
 		T1Model.Update();
 		BField.Update();
+		T2Model.Update();
 		//CTModel.Update();
 		//DPModel.Update();
 		//Field.Update();
@@ -203,8 +208,9 @@ void DrawGame()
 
 	//3D用マトリクス設定//個別ライト表示
 	{
-		T1Model.Draw();
 		BField.Draw();
+		T1Model.Draw();
+		T2Model.Draw();
 		//CTModel.Draw();
 		//DPModel.Draw();
 		//LLModel.Draw();
@@ -216,9 +222,9 @@ void DrawGame()
 		//cube.Draw();
 		//HSLModel.Draw();
 	}
-	//// 2D用マトリクス設定
-	//{
-	//	SetWorldViewProjection2D();
-	//	test2D.Draw();
-	//}
+	// 2D用マトリクス設定
+	{
+		SetWorldViewProjection2D();
+		test2D.Draw();
+	}
 }
