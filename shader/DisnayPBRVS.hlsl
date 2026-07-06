@@ -23,9 +23,3 @@ void main(in VS_IN In, out PS_IN Out)
     Out.WorldPosition = mul( In.Position, World );
     
 }
-
-
-
-
-
-

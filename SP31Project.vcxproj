@@ -139,6 +139,7 @@
     <ClCompile Include="CookTorrance.cpp" />
     <ClCompile Include="cube.cpp" />
     <ClCompile Include="DisnayPBR.cpp" />
+    <ClCompile Include="Smoke.cpp" />
     <ClCompile Include="Wall3D.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HemiSpherLight.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="DisnayPBR.h" />
     <ClInclude Include="DirectXTex.h" />
     <ClInclude Include="Header.h" />
+    <ClInclude Include="Smoke.h" />
     <ClInclude Include="Wall3D.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HemiSpherLight.h" />
@@ -335,6 +337,16 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).cso</ObjectFileOutput>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="shader\SmokePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\SmokeVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="shader\SpotLightPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>

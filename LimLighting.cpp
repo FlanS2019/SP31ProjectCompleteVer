@@ -105,22 +105,22 @@ void LimLighting::Update(void)
 		Rotate.x -= 60.0f * (1.0f / 60.0f);
 	}
 
-	// //必要ならファイル先頭に #include "imgui.h" を追加してください
-	//ImGui::Begin("LimLighting");
-	//{
-	//	// PointLightParam.x: 範囲（視認用）、PointLightParam.y: リムの鋭さ（exponent）
-	//	ImGui::SliderFloat("PointLightParam.x (range)", &Light.PointLightParam.x, 0.5f, 10.0f, "%.2f");
-	//	ImGui::SliderFloat("Rim Exponent (PointLightParam.y)", &Light.PointLightParam.y, 0.1f, 20.0f, "%.2f");
+	 //必要ならファイル先頭に #include "imgui.h" を追加してください
+	ImGui::Begin("LimLighting");
+	{
+		// PointLightParam.x: 範囲（視認用）、PointLightParam.y: リムの鋭さ（exponent）
+		ImGui::SliderFloat("PointLightParam.x (range)", &Light.PointLightParam.x, 0.5f, 10.0f, "%.2f");
+		ImGui::SliderFloat("Rim Exponent (PointLightParam.y)", &Light.PointLightParam.y, 0.1f, 20.0f, "%.2f");
 
-	//	// ライト位置を操作（float4 の先頭アドレスを渡す）
-	//	ImGui::SliderFloat3("Light.Position", (float*)&Light.Position, -5.0f, 5.0f);
+		// ライト位置を操作（float4 の先頭アドレスを渡す）
+		ImGui::SliderFloat3("Light.Position", (float*)&Light.Position, -5.0f, 5.0f);
 
-	//	// デバッグ表示
-	//	ImGui::Separator();
-	//	ImGui::Text("Light.PointLightParam = %.3f, %.3f", Light.PointLightParam.x, Light.PointLightParam.y);
-	//	ImGui::Text("Light.Position = %.3f, %.3f, %.3f", Light.Position.x, Light.Position.y, Light.Position.z);
-	//}
-	//ImGui::End();
+		// デバッグ表示
+		ImGui::Separator();
+		ImGui::Text("Light.PointLightParam = %.3f, %.3f", Light.PointLightParam.x, Light.PointLightParam.y);
+		ImGui::Text("Light.Position = %.3f, %.3f, %.3f", Light.Position.x, Light.Position.y, Light.Position.z);
+	}
+	ImGui::End();
 
 	//// 安全策：指数は 0 にならないようにクランプ
 	//if (Light.PointLightParam.y < 0.0001f) Light.PointLightParam.y = 0.0001f;

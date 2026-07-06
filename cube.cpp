@@ -15,19 +15,19 @@
 HRESULT TexCube::Init(void)
 {
 	//シェーダー読み込み(ライティングなし、単純テクスチャ描画用)
-	CreateVertexShader(&VertexShader, &VertexLayout, "TexCubeVS.cso");
-	CreatePixelShader(&PixelShader, "TexCubePS.cso");
+	CreateVertexShader(&VertexShader, &VertexLayout, "CubeVS.cso");
+	CreatePixelShader(&PixelShader, "CubePS.cso");
 
 	//3Dオブジェクト管理構造体の初期化
 	Position = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
+	Scale = XMFLOAT3(0.4f, 0.4f, 0.4f);
 
 	//モデル読み込み
 	Model = ModelLoad("asset\\model\\cube.fbx");
 
 	//テクスチャ読み込み ← ここ、実際の関数名/引数に合わせて直してください
-	TexID = TextureLoad(L"asset\\texture\\Roughness.png");
+	//TexID = TextureLoad(L"asset\\texture\\Roughness.png");
 
 	return S_OK;
 }
@@ -49,30 +49,30 @@ void TexCube::Finalize(void)
 //=============================================================================
 void TexCube::Update(void)
 {
-	if (Keyboard_IsKeyDown(KK_UP))
+	if (Keyboard_IsKeyDown(KK_E))
 	{
 		Position.z += 0.3f * (1.0f / 60.0f);
 	}
-	else if (Keyboard_IsKeyDown(KK_DOWN))
+	else if (Keyboard_IsKeyDown(KK_Q))
 	{
 		Position.z -= 0.3f * (1.0f / 60.0f);
 	}
-	if (Keyboard_IsKeyDown(KK_RIGHT))
-	{
-		Position.x += 0.3f * (1.0f / 60.0f);
-	}
-	else if (Keyboard_IsKeyDown(KK_LEFT))
-	{
-		Position.x -= 0.3f * (1.0f / 60.0f);
-	}
-	if (Keyboard_IsKeyDown(KK_Z))
-	{
-		Rotate.x += 60.0f * (1.0f / 60.0f);
-	}
-	else if (Keyboard_IsKeyDown(KK_X))
-	{
-		Rotate.x -= 60.0f * (1.0f / 60.0f);
-	}
+	//if (Keyboard_IsKeyDown(KK_RIGHT))
+	//{
+	//	Position.x += 0.3f * (1.0f / 60.0f);
+	//}
+	//else if (Keyboard_IsKeyDown(KK_LEFT))
+	//{
+	//	Position.x -= 0.3f * (1.0f / 60.0f);
+	//}
+	//if (Keyboard_IsKeyDown(KK_Z))
+	//{
+	//	Rotate.x += 60.0f * (1.0f / 60.0f);
+	//}
+	//else if (Keyboard_IsKeyDown(KK_X))
+	//{
+	//	Rotate.x -= 60.0f * (1.0f / 60.0f);
+	//}
 }
 
 //=============================================================================
@@ -87,7 +87,10 @@ void TexCube::Draw(void)
 	{
 		//テクスチャをセット
 		ID3D11ShaderResourceView* tex = GetTexture(TexID);
-		GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
+		GetDeviceContext()->PSSetShaderResources(0, 1, &tex);//テクスチャをセット
+
+		ID3D11SamplerState* defaultSampler = GetDefaultSamplerState();
+		GetDeviceContext()->PSSetSamplers(0, 1, &defaultSampler);
 
 		//平行移動行列作成
 		XMMATRIX TranslationMatrix = XMMatrixTranslation(Position.x, Position.y, Position.z);

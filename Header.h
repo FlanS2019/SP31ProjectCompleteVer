@@ -1,3 +1,4 @@
+//Header.h
 #pragma once
 #include "Main.h"
 #include "Renderer.h"
@@ -23,4 +24,6 @@
 #include "DisnayPBR.h"
 #include "SkyBall.h"
 #include "cube.h"
+#include "Smoke.h"
 #include "IGameObject3D.h"
+#include <algorithm>

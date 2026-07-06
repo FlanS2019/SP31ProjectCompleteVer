@@ -24,9 +24,6 @@
 class PixelLightingBlinPhong : public IGameObject3D
 {
 	protected:
-		XMFLOAT3	Position;
-		XMFLOAT3	Scale;
-		XMFLOAT3	Rotate;
 		int			TexID;
 
 		ID3D11VertexShader* VertexShader; //頂点シェーダーオブジェクト
@@ -43,6 +40,9 @@ class PixelLightingBlinPhong : public IGameObject3D
 		void Finalize(void);
 		void Update(void);
 		void Draw(void);
+		XMFLOAT3 Position;
+		XMFLOAT3 Scale;
+		XMFLOAT3 Rotate;
 };
 
 

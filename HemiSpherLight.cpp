@@ -1,137 +1,128 @@
-#include "Header.h"
-#include "model.h"
-//Initialize
+ï»¿#include "Header.h"
 
-HRESULT HemiSpherLight::Init(void)
+
+HRESULT HemiSphereLighting::Init(void)
 {
-	//shader‚Ì“Ç‚Ýž‚Ý
+    CreateVertexShader(&VertexShader, &VertexLayout, "HemiSphereLightingVS.cso");
+    CreatePixelShader(&PixelShader, "HemiSphereLightingPS.cso");
 
-	CreateVertexShader(&VertexShader, &VertexLayout, "HemiSphereLightingVS.cso");
-	CreatePixelShader(&PixelShader, "HemiSphereLightingPS.cso");
+    Position = XMFLOAT3(0.0f + (0.5f * 4.0f), 0.2f, 0.0f);
+    Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
+    Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
 
-	//3DObject‚Ì“Ç‚Ýž‚Ý
-	Position = XMFLOAT3(2.0f, 0.2f, 0.0f);
-	Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
-	//ƒ‚ƒfƒ‹‚Ì“Ç‚Ýž‚Ý
-	Model = ModelLoad("asset\\model\\cube.fbx");
+    Model = ModelLoad("asset\\model\\model.fbx");
 
-	// ƒ‰ƒCƒg\‘¢‘Ì‚Ì‰Šú‰»
-	XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
-	dir = XMVector3Normalize(dir);
-	XMStoreFloat4(&Light.Direction, dir); // Œõ‚ÌƒxƒNƒgƒ‹
-	Light.Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f); // Œõ‚ÌF
-	Light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f); // ŠÂ‹«Œõ
 
-	dir = XMVector4Normalize(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
-	XMStoreFloat4(&Light.GroundNormal, dir);
+    XMVECTOR dir = XMVectorSet(0.0f, -1.0f, 1.0f, 0.0f);
+    dir = XMVector3Normalize(dir);
+    XMStoreFloat4(&Light.Direction, dir);
 
-	Light.SkyColor = XMFLOAT4(0.4f, 0.6f, 0.2f, 1.0f); // ‰©—Î‚Á‚Û‚­
-	Light.GroundColor = XMFLOAT4(0.1f, 0.3f, 0.1f, 1.0f); // ˆÃ‚ß‚Ì—Î	
-	
-	
-	return S_OK;
+    dir = XMVector4Normalize(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
+    XMStoreFloat4(&Light.GroundNormal, dir);
+
+    Light.Diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
+    Light.Ambient = XMFLOAT4(0.5f, 0.3f, 0.3f, 1.0f);
+
+    Light.SkyColor = XMFLOAT4(0.6f, 0.0f, 0.0f, 1.0f);
+    Light.GroundColor = XMFLOAT4(0.0f, 0.6f, 0.0f, 1.0f);
+
+    return S_OK;
 }
 
-//Finalize
-
-void HemiSpherLight::Finalize(void)
+void HemiSphereLighting::Finalize(void)
 {
-	if (VertexShader) {
-		VertexShader->Release();
-		VertexShader = nullptr;
-	}
-	if (PixelShader) {
-		PixelShader->Release();
-		PixelShader = nullptr;
-	}
-	if (VertexLayout) {
-		VertexLayout->Release();
-		VertexLayout = nullptr;
-	}
-	ModelRelease(Model);
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½
+    VertexLayout->Release();
+    VertexShader->Release();
+    PixelShader->Release();
+
+    ModelRelease(Model);
 }
 
-//Update
-
-void HemiSpherLight::Update(void)
+void HemiSphereLighting::Update(void)
 {
-	if(Keyboard_IsKeyDown(KK_UP))
-	{
-		Position.z += 0.3f * (1.0f / 60.0f);
-	}
-	else if(Keyboard_IsKeyDown(KK_DOWN))
-	{
-		Position.z -= 0.3f * (1.0f / 60.0f);
-	}
-	if(Keyboard_IsKeyDown(KK_LEFT))
-	{
-		Position.x -= 0.3f * (1.0f / 60.0f);
-	}
-	else if(Keyboard_IsKeyDown(KK_RIGHT))
-	{
-		Position.x += 0.3f * (1.0f / 60.0f);
-	}
-	// C³: Z / X ‚ÍˆÊ’u‚Å‚Í‚È‚­‰ñ“]‚ð•ÏX‚·‚é
-	if(Keyboard_IsKeyDown(KK_Z))
-	{
-		Rotate.x += 60.0f * (1.0f / 60.0f); // 1“x/frame ‘‰Á
-	}
-	else if(Keyboard_IsKeyDown(KK_X))
-	{
-		Rotate.x -= 60.0f * (1.0f / 60.0f); // 1“x/frame Œ¸­
-	}
+    //ï¿½Kï¿½ï¿½ï¿½É‰ï¿½]
+    if (Keyboard_IsKeyDown(KK_UP))
+    {
+        Position.z += 0.3f * (1.0f / 60.0f);
+    }
+    else if (Keyboard_IsKeyDown(KK_DOWN))
+    {
+        Position.z -= 0.3f * (1.0f / 60.0f);
+    }
+    if (Keyboard_IsKeyDown(KK_RIGHT))
+    {
+        Position.x += 0.3f * (1.0f / 60.0f);
+    }
+    else if (Keyboard_IsKeyDown(KK_LEFT))
+    {
+        Position.x -= 0.3f * (1.0f / 60.0f);
+    }
+    if (Keyboard_IsKeyDown(KK_Z))
+    {
+        Rotate.x += 60.0f * (1.0f / 60.0f);
+    }
+    else if (Keyboard_IsKeyDown(KK_X))
+    {
+        Rotate.x -= 60.0f * (1.0f / 60.0f);
+    }
 }
 
-//draw
-
-void HemiSpherLight::Draw(void)
+void HemiSphereLighting::Draw(void)
 {
-	GetDeviceContext()->IASetInputLayout(VertexLayout);
+    GetDeviceContext()->IASetInputLayout(VertexLayout);
 
-	GetDeviceContext()->VSSetShader(VertexShader, NULL, 0);
+    GetDeviceContext()->VSSetShader(VertexShader, NULL, 0);
 
-	GetDeviceContext()->PSSetShader(PixelShader, NULL, 0);
+    GetDeviceContext()->PSSetShader(PixelShader, NULL, 0);
 
-	SetLight(Light);
+    SetLight(Light);
 
+    // 3Dï¿½|ï¿½ï¿½ï¿½Sï¿½ï¿½1ï¿½Â‚ï¿½ï¿½Â‚Ìï¿½ï¿½ï¿½
+    // ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
+    ID3D11ShaderResourceView* tex = GetTexture(TexID);
+    GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 
-	{//3dpolygon
-		ID3D11ShaderResourceView* tex = GetTexture(TexID);
-		GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
+    // ï¿½ï¿½ï¿½sï¿½Ú“ï¿½ï¿½sï¿½ï¿½ì¬
+    XMMATRIX TranslationMatrix =
+        XMMatrixTranslation(
+            Position.x,
+            Position.y,
+            Position.z
+        );
 
-		//•½sˆÚ“®
-		XMMATRIX TranslationMatrix = XMMatrixTranslation
-		(Position.x, Position.y, Position.z);
+    // ï¿½ï¿½]ï¿½sï¿½ï¿½ì¬
+    XMMATRIX RotationMatrix =
+        XMMatrixRotationRollPitchYaw(
+            XMConvertToRadians(Rotate.x),
+            XMConvertToRadians(Rotate.y),
+            XMConvertToRadians(Rotate.z)
+        );
 
-		//‰ñ“]
-		XMMATRIX RotationMatrix = XMMatrixRotationRollPitchYaw
-		(XMConvertToRadians(Rotate.x),
-			XMConvertToRadians(Rotate.y), 
-			XMConvertToRadians(Rotate.z));
+    // ï¿½Xï¿½Pï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½sï¿½ï¿½ì¬
+    XMMATRIX ScalingMatrix =
+        XMMatrixScaling(
+            Scale.x,
+            Scale.y,
+            Scale.z
+        );
 
-		//Šg‘åk¬
-		XMMATRIX ScalingMatrix = XMMatrixScaling
-		(Scale.x, Scale.y, Scale.z);
+    // ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½hï¿½sï¿½ï¿½ì¬ ï¿½ï¿½ï¿½ï¿½Zï¿½Ìï¿½ï¿½Ô‚É’ï¿½ï¿½ï¿½
+    XMMATRIX WorldMatrix =
+        ScalingMatrix *
+        RotationMatrix *
+        TranslationMatrix;
 
-		//ƒ[ƒ‹ƒhs—ñ‚Ì‡¬
-		XMMATRIX WorldMatrix = 
-			ScalingMatrix * RotationMatrix * TranslationMatrix;
+    SetWorldMatrix(WorldMatrix);
 
-		//DirextX‚És—ñ‚ð“]‘—
-		SetWorldMatrix(WorldMatrix);
+    GetDeviceContext()->IASetPrimitiveTopology(
+        D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST
+    );
 
-		//ƒvƒŠƒ~ƒeƒBƒuƒgƒ|ƒƒW[‚ÌÝ’è
-		GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    MATERIAL material;
+    ZeroMemory(&material, sizeof(MATERIAL));
+    material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+    SetMaterial(material);
 
-		//Material‚Ì•`‰æ
-		MATERIAL material;
-		ZeroMemory(&material, sizeof(MATERIAL));
-		material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		SetMaterial(material);
-
-		ModelDraw(Model);
-
-	}
+    ModelDraw(Model);
 }
-

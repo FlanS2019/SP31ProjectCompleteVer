@@ -1,17 +1,21 @@
+
 #include "Common.hlsl"
 
 void main(in VS_IN In, out PS_IN Out)
 {
-    Out = (PS_IN) 0; // ëSÉÅÉìÉoÅ[èâä˙âª
-
-    float4 pos = float4(In.Position.xyz, 1.0f);
-    pos = mul(pos, World);
-    Out.WorldPosition = pos;
-    pos = mul(pos, View);
-    pos = mul(pos, Projection);
-
-    Out.Position = pos;
-    Out.Normal = In.Normal;
-    Out.TexCoord = In.TexCoord;
+    matrix wvp;
+    wvp = mul(World, View);
+    wvp = mul(wvp, Projection);
+    Out.Position = mul(In.Position, wvp);
+    
+    float4 worldNormal, normal;
+    normal = float4(In.Normal.xyz, 0.0f);
+    worldNormal = mul(normal, World);
+    worldNormal = normalize(worldNormal);
+    Out.Normal = worldNormal;
+    
     Out.Diffuse = In.Diffuse;
+    Out.TexCoord = In.TexCoord;
+    
+    Out.WorldPosition = mul(In.Position, World);
 }

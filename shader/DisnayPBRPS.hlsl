@@ -19,11 +19,8 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
     // 法線を計算
     float4 normal = normalize(In.Normal);
 
-    // 各種マップをサンプリングする
-    // アルベドカラー
-    float4 albedoColor = g_Texture.Sample(
-        g_SamplerState,
-        In.TexCoord);
+    // アルベドカラー（テクスチャが無いので固定色にする）
+    float4 albedoColor = float4(0.8f, 0.65f, 0.2f, 1.0f); // 好きな色に調整可
 
     // スペキュラカラーはアルベドカラーと同じ
     float3 specColor = albedoColor.rgb;
@@ -35,7 +32,6 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
         In.TexCoord).r * 2.0f - 1.0f;
 
     smooth = Parameter.x; //これは無くてもよい
-
     smooth = saturate(smooth);
 
     // 金属度を取得
@@ -45,9 +41,8 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
         In.TexCoord).r * 2.0f - 1.0f;
 
     metallic = Parameter.y; //これは無くてもよい
-
     metallic = saturate(metallic);
-
+    
     // カメラへのベクトル
     float3 eyev =
         CameraPosition.xyz -

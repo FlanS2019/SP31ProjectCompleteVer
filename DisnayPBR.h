@@ -8,9 +8,6 @@
 class DisnayPBR : public IGameObject3D
 {
 protected:
-    XMFLOAT3 Position;
-    XMFLOAT3 Scale;
-    XMFLOAT3 Rotate;
     int      TexIDRoughness;
     int      TexIDMetalness;
 
@@ -28,6 +25,8 @@ public:
     void Finalize(void);
     void Update(void);
     void Draw(void);
-
-
+    int TexIDAlbedo;
+    XMFLOAT3 Position;
+    XMFLOAT3 Scale;
+    XMFLOAT3 Rotate;
 };
