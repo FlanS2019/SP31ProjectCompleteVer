@@ -66,7 +66,8 @@ HRESULT Toon2::Init(void)
 	Parameter.x = 0.0f; // Rim Exponent
 	//Parameter.y = 0.5f; // Rim Intensity
 
-	TexID = TextureLoad(L"asset\\texture\\Toon2.bmp");
+	//TexID = TextureLoad(L"asset\\texture\\Toon2.bmp");
+	TexID = TextureLoad(L"asset\\texture\\Toon2.png");
 
 	return S_OK;
 }
