@@ -181,7 +181,7 @@ void Toon2::Draw(void)
 	{//3Dポリゴン１つずつの処理
 		//テクスチャをセット
 		ID3D11ShaderResourceView* tex = GetTexture(TexID);
-		GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
+		GetDeviceContext()->PSSetShaderResources(1, 1, &tex);
 
 		//平行移動行列作成
 		XMMATRIX	TranslationMatrix =
