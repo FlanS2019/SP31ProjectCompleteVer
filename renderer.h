@@ -79,6 +79,16 @@ ID3D11DeviceContext *GetDeviceContext( void );
 
 void SetDepthEnable( bool Enable );
 
+// カリングモード
+enum CULL_MODE
+{
+	CULL_MODE_BACK,		// 裏面をカリング(通常の片面表示)
+	CULL_MODE_FRONT,	// 表面をカリング(エッジ用:法線反転ハル)
+	CULL_MODE_NONE,		// カリングしない(両面表示)
+};
+
+void SetCullMode(CULL_MODE Mode);
+
 void SetWorldViewProjection2D(void);
 void ResetWorldViewProjection3D(void);
 
