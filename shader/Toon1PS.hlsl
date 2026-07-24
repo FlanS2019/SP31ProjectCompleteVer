@@ -1,58 +1,59 @@
 #include "Common.hlsl"
+#include "CookTorranceSub.hlsl"
+
 
 Texture2D g_Texture : register(t0);
 SamplerState g_SamplerState : register(s0);
 
 void main(in PS_IN In, out float4 outDiffuse : SV_TARGET)
 {
-    float4 lv = In.WorldPosition - Light.Position;
+    float4 lv = Light.Position - In.WorldPosition; //光源へのベクトル
+    //float4 lv = In.WorldPosition - Light.Position; //光源へのベクトル
     float4 ld = length(lv);
-    lv = normalize(ld);
+    lv = normalize(lv);
     
+    //float ofs = 1.0f - (1.0f / Light.PointLightparam.x) * ld; <-- not related to other comment but the first one is pdf ver
     float ofs = saturate(1.0f - ld / Light.PointLightparam.x);
-    ofs = max(0.0f, ofs);
+    ofs = max(0, ofs);
     
     float4 normal = normalize(In.Normal);
-    float light = -dot(normal.xyz, lv.xyz);
+    
+    float light = 0.5f + 0.5f * dot(normal.xyz, lv.xyz);
+    //float light = 0.5f + 0.5f * (-dot(normal.xyz, lv.xyz));
     light = saturate(light);
     
-    //明るさ調整
-    if(light > Parameter.y)
+    //light <= brightness (step)
+    // Toon shading
+    if (light <= Parameter.x)
     {
-        light = 1.0f;
+        light = 0.4f;
     }
-    else if(light > Parameter.x)
+    else if (light <= Parameter.y)
     {
         light = 0.7f;
     }
     else
     {
-        light = (light - Parameter.x) / (Parameter.y - Parameter.x);
+        light = 1.0f;
     }
     
     light *= ofs;
-    
+
     outDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord);
-    
     outDiffuse.rgb *= In.Diffuse.rgb * Light.Diffuse.rgb * light + Light.Ambient.rgb;
     outDiffuse.a *= In.Diffuse.a;
     
-    //float3 eyev = normalize(In.WorldPosition.xyz - CameraPosition.xyz);
-    //float3 halfv = normalize(eyev + lv.xyz);
- 
-    //float specular = saturate(-dot(normal.xyz, halfv));
-    //specular = pow(specular, 30.0f);
+    // Create view vector
+    float4 eyev = normalize(In.WorldPosition - CameraPosition);
 
-    //// Add specular highlight
-    //outDiffuse.rgb += (specular * ofs);
-    
-    //簡易エッジ作成
-    float4 eyev = In.WorldPosition - CameraPosition;
-    eyev = normalize(eyev);
-    
-    float d = dot(normal, eyev);
-    if(d > Parameter.z)
+    // Dot product of view vector and normal
+    float d = dot(eyev, normal);
+
+    // Determine if this is an edge
+    if (d > Parameter.z)
     {
         outDiffuse.rgb *= 0.3f;
+        //outDiffuse.rgb = float3(0.0f, 0.0f, 0.0f); // Draw black outline
     }
+
 }

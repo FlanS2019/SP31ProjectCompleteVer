@@ -29,7 +29,8 @@ protected:
 	XMFLOAT3	Position;
 	XMFLOAT3	Scale;
 	XMFLOAT3	Rotate;
-	int			TexID;
+	int TexID;
+	int TexRampID;
 
 	ID3D11VertexShader* VertexShader; //頂点シェーダーオブジェクト
 	ID3D11PixelShader* PixelShader; //ピクセルシェーダーオブジェクト

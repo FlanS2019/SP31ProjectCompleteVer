@@ -3,7 +3,6 @@
 #include "texture.h"
 #include "camera.h"
 #include "keyboard.h"
-#include "renderer.h"
 
 
 //************************************************************
@@ -16,13 +15,13 @@ HRESULT Toon_3::Init(void)
     Parameter.x = 0.0f;
     Parameter.x = 0.3f;
 
-    TexRampID = TextureLoad(L"asset\\texture\\Toon2_2.png");
+    TexRampID = TextureLoad(L"asset\\texture\\Toon2.bmp");
 
     //シェーダー読み込み
-    CreateVertexShader(&VertexShader, &VertexLayout, "Toon_2VS.cso");
-    CreatePixelShader(&PixelShader, "Toon_2PS.cso");
-    CreateVertexShader(&VertexEdgeShader, &VertexEdgeLayout, "Toon_3VS.cso");
-    CreatePixelShader(&PixelEdgeShader, "Toon_3PS.cso");
+    CreateVertexShader(&VertexShader, &VertexLayout, "Toon2VS.cso");
+    CreatePixelShader(&PixelShader, "Toon2PS.cso");
+    CreateVertexShader(&VertexEdgeShader, &VertexEdgeLayout, "Toon3VS.cso");
+    CreatePixelShader(&PixelEdgeShader, "Toon3PS.cso");
 
     //3Dオブジェクト管理構造体の初期化
     Position = XMFLOAT3(0.0f + (0.5f * 2.0f), 0.2f, 0.0f);
@@ -187,7 +186,6 @@ void Toon_3::Draw(void)
 
     // ピクセルシェーダーをセット
     GetDeviceContext()->PSSetShader(PixelEdgeShader, NULL, 0);
-
     //カリングの切り替え
     SetCullMode(CULL_MODE_FRONT);
     //エッジモデルの描画

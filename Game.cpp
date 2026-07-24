@@ -47,6 +47,7 @@ CookTorrance	CTModel;
 DisnayPBR	DPModel;
 Toon1 T1Model;
 Toon2 T2Model;
+Toon_3	Toon3Model;
 
 //Cube cube;
 //VertexDirectionalLighting	VDLModel;
@@ -85,6 +86,7 @@ void InitGame()
 	T1Model.Init();
 	BField.Init();
 	T2Model.Init();
+	Toon3Model.Init();
 	//CTModel.Init();
 	//DPModel.Init();
 	//Field.Init();
@@ -125,6 +127,7 @@ void FinalizeGame()
 	T1Model.Finalize();
 	BField.Finalize();
 	T2Model.Finalize();
+	Toon3Model.Finalize();
 	//CTModel.Finalize();
 	//DPModel.Finalize();
 	//Field.Finalize();
@@ -153,6 +156,7 @@ void UpdateGame()
 		T1Model.Update();
 		BField.Update();
 		T2Model.Update();
+		Toon3Model.Update();
 		//CTModel.Update();
 		//DPModel.Update();
 		//Field.Update();
@@ -212,6 +216,7 @@ void DrawGame()
 		BField.Draw();
 		T1Model.Draw();
 		T2Model.Draw();
+		Toon3Model.Draw();
 		//CTModel.Draw();
 		//DPModel.Draw();
 		//LLModel.Draw();

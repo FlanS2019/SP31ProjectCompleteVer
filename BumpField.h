@@ -15,6 +15,7 @@ protected:
     XMFLOAT3 Rotate;
     int      TexID;
     int      MapID;
+    int      MapIDBlob;
 
     ID3D11Buffer* VertexBuffer;   // 頂点バッファ
     ID3D11Buffer* IndexBuffer;    // インデックスバッファ

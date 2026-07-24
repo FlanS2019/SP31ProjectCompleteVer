@@ -58,6 +58,7 @@ HRESULT BumpField::Init(void)
     //テクスチャ読み込み
     TexID = TextureLoad(L"asset\\texture\\sura.jpg");
     MapID = TextureLoad(L"asset\\texture\\normal\\Normal.png");
+    MapIDBlob = TextureLoad(L"asset\\texture\\normal\\NormalBlob.png");
 
     //シェーダー読み込み
     CreateVertexShader(&VertexShader, &VertexLayout, "BumpVS.cso");
@@ -146,6 +147,9 @@ void BumpField::Draw(void)
 
     tex = GetTexture(MapID);
     GetDeviceContext()->PSSetShaderResources(1, 1, &tex);
+
+    tex = GetTexture(MapIDBlob);
+    GetDeviceContext()->PSSetShaderResources(2, 1, &tex);
 
     // 行列作成
     XMMATRIX TranslationMatrix =
