@@ -30,6 +30,7 @@
 #include "Toon1.h"
 #include "Toon2.h"
 #include "Toon3.h"
+#include "PosterizeNoise.h"
 //===============================================
 //ÉOÉçÅ[ÉoÉãïœêî
  
@@ -48,6 +49,7 @@ DisnayPBR	DPModel;
 Toon1 T1Model;
 Toon2 T2Model;
 Toon_3	Toon3Model;
+PosterizeNoise	PNModel;
 
 //Cube cube;
 //VertexDirectionalLighting	VDLModel;
@@ -87,6 +89,7 @@ void InitGame()
 	BField.Init();
 	T2Model.Init();
 	Toon3Model.Init();
+	PNModel.Init();
 	//CTModel.Init();
 	//DPModel.Init();
 	//Field.Init();
@@ -128,6 +131,7 @@ void FinalizeGame()
 	BField.Finalize();
 	T2Model.Finalize();
 	Toon3Model.Finalize();
+	PNModel.Finalize();
 	//CTModel.Finalize();
 	//DPModel.Finalize();
 	//Field.Finalize();
@@ -157,6 +161,7 @@ void UpdateGame()
 		BField.Update();
 		T2Model.Update();
 		Toon3Model.Update();
+		PNModel.Update();
 		//CTModel.Update();
 		//DPModel.Update();
 		//Field.Update();
@@ -217,6 +222,7 @@ void DrawGame()
 		T1Model.Draw();
 		T2Model.Draw();
 		Toon3Model.Draw();
+		PNModel.Draw();
 		//CTModel.Draw();
 		//DPModel.Draw();
 		//LLModel.Draw();
