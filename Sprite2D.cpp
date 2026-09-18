@@ -39,33 +39,19 @@
 //=============================================================================
 HRESULT Sprite2D::Init(void)
 {
-
-	//char	txt[256] = { 0 };
-	//sprintf(txt, "&IntData   => %p \n", &test.IntData);
-	//OutputDebugString(txt);
-	//sprintf(txt, "&CharData  => %p \n", &test.CharData);
-	//OutputDebugString(txt);
-	//sprintf(txt, "&FloatData => %p \n", &test.FloatData);
-	//OutputDebugString(txt);
-
-
-
-	// テクスチャ読み込み
-	TexID = TextureLoad(L"asset\\texture\\texture.jpg");
+	// テクスチャ読み込み(RAMPテクスチャを表示する)
+	TexID = TextureLoad(L"asset\\texture\\Toon2.png");
 
 	//シェーダー読み込み
-//	CreateVertexShader(&VertexShader, &VertexLayout, "UnlitColorVS.cso");
-//	CreatePixelShader(&PixelShader, "UnlitColorPS.cso");
-	CreateVertexShader(&VertexShader, &VertexLayout, "GrayscaleVS.cso");
-	CreatePixelShader(&PixelShader, "GrayscalePS.cso");
+	CreateVertexShader(&VertexShader, &VertexLayout, "UnlitColorVS.cso");
+	CreatePixelShader(&PixelShader, "UnlitColorPS.cso");
 
-	//2Dオブジェクト初期化
-	Position = XMFLOAT3(SCREEN_WIDTH / 3 / 2, SCREEN_WIDTH / 3 / 2, 0.0f);
+	//2Dオブジェクト初期化(画面左上に小さく表示)
+	Position = XMFLOAT3(100.0f, 60.0f, 0.0f);
 	Color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	Scale = XMFLOAT2(1.0f, 1.0f);
-	Size = XMFLOAT2(SCREEN_WIDTH / 3, SCREEN_WIDTH / 3);
+	Size = XMFLOAT2(120.0f, 120.0f);
 	Rotate = 0.0f;
-
 
 	return S_OK;
 }

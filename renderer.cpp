@@ -39,6 +39,9 @@ ID3D11Buffer*			g_LightBuffer = NULL;
 ID3D11Buffer*			g_CameraBuffer = NULL;
 ID3D11Buffer*			g_ParameterBuffer = NULL;
 //ID3D11Buffer*           g_SpotLightBuffer = NULL;	
+ID3D11RasterizerState* g_RasterizerStateBack = NULL;
+ID3D11RasterizerState* g_RasterizerStateFront = NULL;
+ID3D11RasterizerState* g_RasterizerStateNone = NULL;
 
 XMMATRIX				g_WorldMatrix;
 XMMATRIX				g_ViewMatrix;
@@ -215,21 +218,40 @@ HRESULT InitRenderer(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	vp.TopLeftY = 0;
 	g_ImmediateContext->RSSetViewports( 1, &vp );
 
-	// ラスタライザステート設定
-	D3D11_RASTERIZER_DESC rd; 
-	ZeroMemory( &rd, sizeof( rd ) );
-	rd.FillMode = D3D11_FILL_SOLID; 
-//	rd.CullMode = D3D11_CULL_NONE;	//カリングしない（裏も表も表示しちゃう）
-	rd.CullMode = D3D11_CULL_BACK;	//裏面をカリングする（裏面は表示しない）
-//	rd.CullMode = D3D11_CULL_FRONT;	//表面をカリングする（表面は表示しない）
+//	// ラスタライザステート設定
+//	D3D11_RASTERIZER_DESC rd; 
+//	ZeroMemory( &rd, sizeof( rd ) );
+//	rd.FillMode = D3D11_FILL_SOLID; 
+////	rd.CullMode = D3D11_CULL_NONE;	//カリングしない（裏も表も表示しちゃう）
+//	rd.CullMode = D3D11_CULL_BACK;	//裏面をカリングする（裏面は表示しない）
+////	rd.CullMode = D3D11_CULL_FRONT;	//表面をカリングする（表面は表示しない）
+//
+//	rd.DepthClipEnable = TRUE; 
+//	rd.MultisampleEnable = FALSE; 
+//
+//	ID3D11RasterizerState *rs;
+//	g_D3DDevice->CreateRasterizerState( &rd, &rs );
+//
+//	g_ImmediateContext->RSSetState( rs );
 
-	rd.DepthClipEnable = TRUE; 
-	rd.MultisampleEnable = FALSE; 
+	// ラスタライザステート設定(3種類あらかじめ作っておいて切り替える)
+	D3D11_RASTERIZER_DESC rd;
+	ZeroMemory(&rd, sizeof(rd));
+	rd.FillMode = D3D11_FILL_SOLID;
+	rd.DepthClipEnable = TRUE;
+	rd.MultisampleEnable = FALSE;
 
-	ID3D11RasterizerState *rs;
-	g_D3DDevice->CreateRasterizerState( &rd, &rs );
+	rd.CullMode = D3D11_CULL_BACK;
+	g_D3DDevice->CreateRasterizerState(&rd, &g_RasterizerStateBack);
 
-	g_ImmediateContext->RSSetState( rs );
+	rd.CullMode = D3D11_CULL_FRONT;
+	g_D3DDevice->CreateRasterizerState(&rd, &g_RasterizerStateFront);
+
+	rd.CullMode = D3D11_CULL_NONE;
+	g_D3DDevice->CreateRasterizerState(&rd, &g_RasterizerStateNone);
+
+	// デフォルトは裏面カリング
+	g_ImmediateContext->RSSetState(g_RasterizerStateBack);
 
 	// ブレンドステート設定
 	D3D11_BLEND_DESC blendDesc;
@@ -362,6 +384,10 @@ void FinalizeRenderer(void)
 	if( g_SwapChain )			g_SwapChain->Release();
 	if( g_ImmediateContext )	g_ImmediateContext->Release();
 	if( g_D3DDevice )			g_D3DDevice->Release();
+
+	if (g_RasterizerStateBack)	g_RasterizerStateBack->Release();
+	if (g_RasterizerStateFront)	g_RasterizerStateFront->Release();
+	if (g_RasterizerStateNone)		g_RasterizerStateNone->Release();
 }
 
 
@@ -449,3 +475,19 @@ void SetLight(LIGHT Light)
 //{
 //	g_ImmediateContext->UpdateSubresource(g_SpotLightBuffer, 0, NULL, &SpotLight, 0, 0);
 //}
+
+void SetCullMode(CULL_MODE Mode)
+{
+	switch (Mode)
+	{
+	case CULL_MODE_BACK:
+		g_ImmediateContext->RSSetState(g_RasterizerStateBack);
+		break;
+	case CULL_MODE_FRONT:
+		g_ImmediateContext->RSSetState(g_RasterizerStateFront);
+		break;
+	case CULL_MODE_NONE:
+		g_ImmediateContext->RSSetState(g_RasterizerStateNone);
+		break;
+	}
+}

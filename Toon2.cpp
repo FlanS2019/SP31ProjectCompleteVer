@@ -1,4 +1,4 @@
-#include "Toon1.h"
+#include "Toon2.h"
 #include "sprite.h"
 #include "texture.h"
 #include "camera.h"
@@ -8,19 +8,19 @@
 //************************************************************
 // 初期化処理
 //************************************************************
-HRESULT Toon1::Init(void)
+HRESULT Toon2::Init(void)
 {
     Parameter = XMFLOAT4(0, 0, 0, 0);
-    Parameter.x = 0.4f;
-    Parameter.y = 0.7f;
-    Parameter.z = -0.30f;
+    Parameter.x = 0.5f;
+
+    TexRampID = TextureLoad(L"asset\\texture\\Toon2.png");
 
     //シェーダー読み込み
-    CreateVertexShader(&VertexShader, &VertexLayout, "Toon1VS.cso");
-    CreatePixelShader(&PixelShader, "Toon1PS.cso");
+    CreateVertexShader(&VertexShader, &VertexLayout, "Toon2VS.cso");
+    CreatePixelShader(&PixelShader, "Toon2PS.cso");
 
     //3Dオブジェクト管理構造体の初期化
-    Position = XMFLOAT3(0.0f + (0.5f * 0.0f), 0.2f, 0.0f);
+    Position = XMFLOAT3(0.0f + (0.5f * 1.0f), 0.2f, 0.0f);
     Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
     Scale = XMFLOAT3(0.2f, 0.2f, 0.2f);
 
@@ -46,7 +46,7 @@ HRESULT Toon1::Init(void)
 //************************************************************
 // 終了処理
 //************************************************************
-void Toon1::Finalize(void)
+void Toon2::Finalize(void)
 {
     //作ったものを解放
     VertexLayout->Release();
@@ -59,7 +59,7 @@ void Toon1::Finalize(void)
 //************************************************************
 // 更新処理
 //************************************************************
-void Toon1::Update(void)
+void Toon2::Update(void)
 {
     //適当に回転
     if (Keyboard_IsKeyDown(KK_UP))
@@ -88,19 +88,19 @@ void Toon1::Update(void)
     }
 
     ImGui::SetNextWindowSize(ImVec2(300, 500), ImGuiCond_FirstUseEver);
-    ImGui::Begin("Toon1");
+    ImGui::Begin("Toon2");
     {
-        ImGui::SliderFloat("Level_1", &Parameter.x, 0.0f, 1.0f, "%.2f");
-        ImGui::SliderFloat("Level_2", &Parameter.y, 0.0f, 1.0f, "%.2f");
-        ImGui::SliderFloat("Edge", &Parameter.z, 0.0f, -0.6f, "%.2f");
+        ImGui::SliderFloat("Texture V", &Parameter.x, 0.0f, 1.0f, "%.4f");
     }
     ImGui::End();
+
+    //Parameter.y += 0.006f;
 }
 
 //************************************************************
 // 描画処理
 //************************************************************
-void Toon1::Draw(void)
+void Toon2::Draw(void)
 {
     // 頂点レイアウト設定
     GetDeviceContext()->IASetInputLayout(VertexLayout);
@@ -119,6 +119,8 @@ void Toon1::Draw(void)
     ID3D11ShaderResourceView* tex = GetTexture(TexID);
     GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 
+    ID3D11ShaderResourceView* texRamp = GetTexture(TexRampID);
+    GetDeviceContext()->PSSetShaderResources(1, 1, &texRamp);
 
     // 平行移動行列作成
     XMMATRIX TranslationMatrix =

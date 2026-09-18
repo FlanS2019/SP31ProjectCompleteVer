@@ -3,6 +3,7 @@
 
 
 Texture2D g_Texture : register(t0);
+Texture2D g_TextureRamp : register(t1);
 SamplerState g_SamplerState : register(s0);
 
 void main(in PS_IN In, out float4 outDiffuse : SV_TARGET)
@@ -12,7 +13,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_TARGET)
     float4 ld = length(lv);
     lv = normalize(lv);
     
-    //float ofs = 1.0f - (1.0f / Light.PointLightparam.x) * ld; <-- not related to other comment but the first one is pdf ver
+    //float ofs = 1.0f - (1.0f / Light.PointLightparam.x) * ld; //<-- not related to other comment but the first one is pdf ver
     float ofs = saturate(1.0f - ld / Light.PointLightparam.x);
     ofs = max(0, ofs);
     
@@ -20,28 +21,17 @@ void main(in PS_IN In, out float4 outDiffuse : SV_TARGET)
     
     float light = 0.5f + 0.5f * dot(normal.xyz, lv.xyz);
     //float light = 0.5f + 0.5f * (-dot(normal.xyz, lv.xyz));
-    light = saturate(light);
+    light = clamp(light, 0.01f, 0.99f);
     
-    //light <= brightness (step)
-    // Toon shading
-    if (light <= Parameter.x)
-    {
-        light = 0.4f;
-    }
-    else if (light <= Parameter.y)
-    {
-        light = 0.7f;
-    }
-    else
-    {
-        light = 1.0f;
-    }
+    float texv = Parameter.x;
+    texv = clamp(texv, 0.01f, 0.99f);
     
-    light *= ofs;
+    float4 toon = g_TextureRamp.Sample(g_SamplerState, float2(light, texv));
+    toon *= ofs;
 
     outDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord);
-    outDiffuse.rgb *= In.Diffuse.rgb * Light.Diffuse.rgb * light + Light.Ambient.rgb;
-    outDiffuse.a *= In.Diffuse.a;
+    outDiffuse.rgb *= toon.rgb * In.Diffuse.rgb * Light.Diffuse.rgb + Light.Ambient.rgb;
+    outDiffuse.a *= In.Diffuse;
     
     // Create view vector
     float4 eyev = normalize(In.WorldPosition - CameraPosition);
@@ -50,10 +40,9 @@ void main(in PS_IN In, out float4 outDiffuse : SV_TARGET)
     float d = dot(eyev, normal);
 
     // Determine if this is an edge
-    if (d > Parameter.z)
+    if (d > -0.25)
     {
         outDiffuse.rgb *= 0.3f;
         //outDiffuse.rgb = float3(0.0f, 0.0f, 0.0f); // Draw black outline
     }
-
 }
