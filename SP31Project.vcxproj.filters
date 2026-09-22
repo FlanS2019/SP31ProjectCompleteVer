@@ -86,6 +86,9 @@
     <ClCompile Include="PolygonModel.cpp">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
+    <ClCompile Include="PosterizeNoise.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClCompile>
     <ClCompile Include="VertexDirectionalLighting.cpp">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
@@ -196,6 +199,9 @@
     <ClInclude Include="PolygonModel.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
+    <ClInclude Include="PosterizeNoise.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClInclude>
     <ClInclude Include="VertexDirectionalLighting.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
@@ -301,6 +307,12 @@
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\SpotLightPS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\PosterizeNoisePS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\PosterizeNoiseVS.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\LimLightingPS.hlsl">

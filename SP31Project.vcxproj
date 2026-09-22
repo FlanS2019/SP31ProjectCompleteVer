@@ -160,6 +160,7 @@
     <ClCompile Include="PixelLightingBlinPhong.cpp" />
     <ClCompile Include="PointPixelLighting.cpp" />
     <ClCompile Include="PolygonModel.cpp" />
+    <ClCompile Include="PosterizeNoise.cpp" />
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="Sprite2D.cpp" />
     <ClCompile Include="renderer.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="PixelLightingBlinPhong.h" />
     <ClInclude Include="PointPixelLighting.h" />
     <ClInclude Include="PolygonModel.h" />
+    <ClInclude Include="PosterizeNoise.h" />
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="Sprite2D.h" />
     <ClInclude Include="renderer.h" />
@@ -328,6 +330,16 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="shader\PointPixelLightingVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\PosterizeNoisePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\PosterizeNoiseVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).cso</ObjectFileOutput>
