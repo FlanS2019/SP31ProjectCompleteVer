@@ -34,8 +34,8 @@ HRESULT Toon1::Init(void)
     XMStoreFloat4(&Light.Direction, dir);
 
     Light.Position = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
-    Light.Diffuse = XMFLOAT4(0.9f, 0.9f, 0.9f, 1.0f);
-    Light.Ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
+    Light.Diffuse = XMFLOAT4(0.75f, 0.95f, 1.0f, 1.0f);   //ネオンシアン寄りのキーライト
+    Light.Ambient = XMFLOAT4(0.35f, 0.08f, 0.45f, 1.0f);  //マゼンタ~パープルのアンビエント
     Light.PointLightParam = XMFLOAT4(3.0f, 0.0f, 0.0f, 1.0f);
     Light.Angle.x = XMConvertToRadians(20.0f);
 
@@ -61,6 +61,9 @@ void Toon1::Finalize(void)
 //************************************************************
 void Toon1::Update(void)
 {
+    //やかましく常時回転させる(リアルタイム感を強調)
+    Rotate.y += 40.0f * (1.0f / 60.0f);
+
     //適当に回転
     if (Keyboard_IsKeyDown(KK_UP))
     {

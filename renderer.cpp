@@ -47,6 +47,8 @@ XMMATRIX				g_WorldMatrix;
 XMMATRIX				g_ViewMatrix;
 XMMATRIX				g_ProjectionMatrix;
 
+static float g_ElapsedTime = 0.0f;
+
 ID3D11DepthStencilState* g_DepthStateEnable;
 ID3D11DepthStencilState* g_DepthStateDisable;
 
@@ -396,12 +398,14 @@ void FinalizeRenderer(void)
 //=============================================================================
 void Clear(void)
 {
-	// バックバッファクリア色
-	float ClearColor[4] = { 0.4f, 0.2f, 0.2f, 1.0f };//純黒は避ける
+	// バックバッファクリア色(ネオン背景に合わせた濃紺パープル)
+	float ClearColor[4] = { 0.03f, 0.02f, 0.08f, 1.0f };
 	//バックバッファをクリア
 	g_ImmediateContext->ClearRenderTargetView( g_RenderTargetView, ClearColor );
 	//デプスステンシルバッファをクリア
 	g_ImmediateContext->ClearDepthStencilView( g_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+
+	g_ElapsedTime += (1.0f / 60.0f);
 }
 
 
@@ -475,6 +479,11 @@ void SetLight(LIGHT Light)
 //{
 //	g_ImmediateContext->UpdateSubresource(g_SpotLightBuffer, 0, NULL, &SpotLight, 0, 0);
 //}
+
+float GetTime(void)
+{
+	return g_ElapsedTime;
+}
 
 void SetCullMode(CULL_MODE Mode)
 {

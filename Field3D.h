@@ -29,6 +29,9 @@ class Field3D
 		XMFLOAT3	Rotate;
 		int			TexID;
 
+		XMFLOAT4	Parameter;	//グリッドフロア演出用(w:経過時間)
+		float		Time;
+
 		ID3D11Buffer* VertexBuffer;	//頂点バッファ
 		ID3D11Buffer* IndexBuffer;	//インデックスバッファ
 		ID3D11VertexShader* VertexShader; //頂点シェーダーオブジェクト

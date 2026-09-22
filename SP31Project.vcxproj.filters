@@ -89,6 +89,12 @@
     <ClCompile Include="PosterizeNoise.cpp">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
+    <ClCompile Include="NeonBackground.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClCompile>
+    <ClCompile Include="NeonPhoto2.cpp">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClCompile>
     <ClCompile Include="VertexDirectionalLighting.cpp">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClCompile>
@@ -202,6 +208,12 @@
     <ClInclude Include="PosterizeNoise.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
+    <ClInclude Include="NeonBackground.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClInclude>
+    <ClInclude Include="NeonPhoto2.h">
+      <Filter>ソース ファイル\オブジェクトクラス</Filter>
+    </ClInclude>
     <ClInclude Include="VertexDirectionalLighting.h">
       <Filter>ソース ファイル\オブジェクトクラス</Filter>
     </ClInclude>
@@ -313,6 +325,15 @@
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\PosterizeNoiseVS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\NeonBGPS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\NeonPhotoCardPS.hlsl">
+      <Filter>ソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\GridFloorPS.hlsl">
       <Filter>ソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\LimLightingPS.hlsl">

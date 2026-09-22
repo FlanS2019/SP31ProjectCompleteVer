@@ -101,6 +101,8 @@ void SetCameraPosition(XMFLOAT3 CameraPosition);
 
 void SetParameter(XMFLOAT4 Parameter);
 
+float GetTime(void);	// 経過時間取得(背景/グリッドのアニメーション用)
+
 
 
 void SetMaterial( MATERIAL Material );

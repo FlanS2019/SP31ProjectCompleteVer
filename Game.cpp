@@ -31,6 +31,8 @@
 #include "Toon2.h"
 #include "Toon3.h"
 #include "PosterizeNoise.h"
+#include "NeonBackground.h"
+#include "NeonPhoto2.h"
 //===============================================
 //グローバル変数
  
@@ -50,6 +52,8 @@ Toon1 T1Model;
 Toon2 T2Model;
 Toon_3	Toon3Model;
 PosterizeNoise	PNModel;
+NeonBackground	BGModel;
+NeonPhoto2	Photo2Model;
 
 //Cube cube;
 //VertexDirectionalLighting	VDLModel;
@@ -90,6 +94,9 @@ void InitGame()
 	T2Model.Init();
 	Toon3Model.Init();
 	PNModel.Init();
+	BGModel.Init();
+	Photo2Model.Init();
+	Field.Init();
 	//CTModel.Init();
 	//DPModel.Init();
 	//Field.Init();
@@ -132,6 +139,9 @@ void FinalizeGame()
 	T2Model.Finalize();
 	Toon3Model.Finalize();
 	PNModel.Finalize();
+	BGModel.Finalize();
+	Photo2Model.Finalize();
+	Field.Finalize();
 	//CTModel.Finalize();
 	//DPModel.Finalize();
 	//Field.Finalize();
@@ -162,6 +172,9 @@ void UpdateGame()
 		T2Model.Update();
 		Toon3Model.Update();
 		PNModel.Update();
+		BGModel.Update();
+		Photo2Model.Update();
+		Field.Update();
 		//CTModel.Update();
 		//DPModel.Update();
 		//Field.Update();
@@ -205,8 +218,9 @@ void UpdateGame()
 //ゲームシーン描画
 void DrawGame()
 {
+	//ネオン背景を最初に描画(深度無視・全画面、写真を使った演出)
+	BGModel.Draw();
 
-	
 	SetDepthEnable(true);		//奥行き処理有効
 	DrawCamera();
 
@@ -218,7 +232,8 @@ void DrawGame()
 
 	//3D用マトリクス設定//個別ライト表示
 	{
-		BField.Draw();
+		Field.Draw();
+		//BField.Draw();	//手前を覆って写真が隠れてしまうので非表示に
 		T1Model.Draw();
 		T2Model.Draw();
 		Toon3Model.Draw();
@@ -238,5 +253,6 @@ void DrawGame()
 	{
 		SetWorldViewProjection2D();
 		test2D.Draw();
+		Photo2Model.Draw();
 	}
 }

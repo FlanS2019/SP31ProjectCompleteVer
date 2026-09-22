@@ -67,12 +67,10 @@ static VERTEX_3D	Box[NUM_VERTEX] =
 HRESULT Field3D::Init(void)
 {
 
-	//テクスチャ読み込み
-	TexID = TextureLoad(L"asset\\texture\\sura.jpg");
-
+	//このオブジェクトはネオングリッドフロアとして使う(テクスチャは使わずシェーダーで生成)
 	//シェーダー読み込み
 	CreateVertexShader(&VertexShader, &VertexLayout, "SpotLightVS.cso");
-	CreatePixelShader(&PixelShader, "SpotLightPS.cso");
+	CreatePixelShader(&PixelShader, "GridFloorPS.cso");
 
 	//頂点バッファ作成
 	{
@@ -95,10 +93,13 @@ HRESULT Field3D::Init(void)
 		GetDeviceContext()->Unmap(VertexBuffer, 0);
 	}
 
-	//3Dオブジェクト管理構造体の初期化
-	Position = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	//3Dオブジェクト管理構造体の初期化(足元に大きく広がるグリッドフロアとして配置)
+	Position = XMFLOAT3(0.0f, -0.15f, 0.0f);
 	Rotate = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	Scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
+	Scale = XMFLOAT3(1.6f, 1.0f, 1.6f);
+
+	Time = 0.0f;
+	Parameter = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
 
 
 
@@ -124,7 +125,8 @@ void Field3D::Finalize(void)
 //=============================================================================
 void Field3D::Update(void)
 {
-
+	Time += (1.0f / 60.0f);
+	Parameter.w = Time;
 }
 
 //=============================================================================
@@ -141,10 +143,6 @@ void Field3D::Draw(void)
 	GetDeviceContext()->PSSetShader(PixelShader, NULL, 0);
 
 	{
-		//テクスチャをセット
-		ID3D11ShaderResourceView* tex = GetTexture(TexID);
-		GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
-
 		//平行移動行列作成
 		XMMATRIX	TranslationMatrix =
 			XMMatrixTranslation(
@@ -194,6 +192,9 @@ void Field3D::Draw(void)
 		ZeroMemory(&material, sizeof(MATERIAL));
 		material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 		SetMaterial(material);
+
+		//グリッドアニメーション用パラメータを送る
+		SetParameter(Parameter);
 
 		//描画
 		GetDeviceContext()->Draw(NUM_VERTEX, 0);//インデックス無し描画

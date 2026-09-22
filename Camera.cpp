@@ -5,6 +5,7 @@
 #include	"keyboard.h"
 
 Camera		g_Camera;	//カメラ管理構造体
+static float g_ManualHeightOffset = 0.0f;	//E/Qキーでの手動高さオフセット
 
 
 void	InitCamera()
@@ -45,6 +46,22 @@ void	UpdateCamera()
 
 	g_Camera.Position.x = posx;
 	g_Camera.Position.z = posz;
+
+	//Eキーで上へ、Qキーで下へ、手動でもカメラの高さを操作できるようにする
+	if (Keyboard_IsKeyDown(KK_E))
+	{
+		g_ManualHeightOffset += 1.2f * (1.0f / 60.0f);
+	}
+	else if (Keyboard_IsKeyDown(KK_Q))
+	{
+		g_ManualHeightOffset -= 1.2f * (1.0f / 60.0f);
+	}
+	if (g_ManualHeightOffset > 2.0f)  g_ManualHeightOffset = 2.0f;
+	if (g_ManualHeightOffset < -1.3f) g_ManualHeightOffset = -1.3f;
+
+	//カメラが上下にゆっくり首振りするように高さをアニメーションさせる(自動の首振り+手動オフセット)
+	float t = GetTime();
+	g_Camera.Position.y = 1.5f + sinf(t * 0.5f) * 1.0f + g_ManualHeightOffset;	// 自動0.5~2.5 + 手動-1.3~2.0
 
 }
 

@@ -236,6 +236,35 @@ HRESULT	Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 	ImGui_ImplWin32_Init(hWnd);
 	ImGui_ImplDX11_Init(GetDevice(), GetDeviceContext());
+
+	//ゲーミング(サイバーパンク)風 ImGui テーマ
+	{
+		ImGui::StyleColorsDark();
+		ImGuiStyle& style = ImGui::GetStyle();
+		ImVec4* colors = style.Colors;
+
+		colors[ImGuiCol_WindowBg]         = ImVec4(0.04f, 0.03f, 0.09f, 0.92f);
+		colors[ImGuiCol_TitleBg]          = ImVec4(0.10f, 0.02f, 0.20f, 1.00f);
+		colors[ImGuiCol_TitleBgActive]    = ImVec4(0.55f, 0.05f, 0.75f, 1.00f);
+		colors[ImGuiCol_Border]           = ImVec4(0.00f, 0.90f, 1.00f, 0.55f);
+		colors[ImGuiCol_FrameBg]          = ImVec4(0.08f, 0.06f, 0.16f, 1.00f);
+		colors[ImGuiCol_FrameBgHovered]   = ImVec4(0.30f, 0.05f, 0.55f, 1.00f);
+		colors[ImGuiCol_FrameBgActive]    = ImVec4(0.00f, 0.60f, 0.80f, 1.00f);
+		colors[ImGuiCol_SliderGrab]       = ImVec4(0.00f, 0.95f, 1.00f, 1.00f);
+		colors[ImGuiCol_SliderGrabActive] = ImVec4(1.00f, 0.10f, 0.85f, 1.00f);
+		colors[ImGuiCol_Button]           = ImVec4(0.30f, 0.05f, 0.55f, 1.00f);
+		colors[ImGuiCol_ButtonHovered]    = ImVec4(0.55f, 0.05f, 0.85f, 1.00f);
+		colors[ImGuiCol_ButtonActive]     = ImVec4(0.00f, 0.90f, 1.00f, 1.00f);
+		colors[ImGuiCol_CheckMark]        = ImVec4(0.00f, 0.95f, 1.00f, 1.00f);
+		colors[ImGuiCol_Header]           = ImVec4(0.30f, 0.05f, 0.55f, 0.80f);
+		colors[ImGuiCol_HeaderHovered]    = ImVec4(0.55f, 0.05f, 0.85f, 0.90f);
+		colors[ImGuiCol_Text]             = ImVec4(0.85f, 0.98f, 1.00f, 1.00f);
+
+		style.WindowRounding   = 6.0f;
+		style.FrameRounding    = 4.0f;
+		style.GrabRounding     = 4.0f;
+		style.WindowBorderSize = 1.5f;
+	}
 	//==================
 
 	return	S_OK;
